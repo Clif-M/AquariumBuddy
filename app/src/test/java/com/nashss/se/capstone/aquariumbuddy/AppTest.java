@@ -4,6 +4,9 @@
 package com.nashss.se.capstone.aquariumbuddy;
 
 import org.junit.jupiter.api.Test;
+
+import com.clifm.se.capstone.aquariumbuddy.App;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
