@@ -206,23 +206,23 @@ Resources:
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/tanks"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Tanks"
                 
-        - PolicyName: 'AccessFishTable'
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-            - Effect: Allow
-              Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/fish"
-
-        - PolicyName: 'AccessLogTable'
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: dynamodb:*
-                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/logs"
+#        - PolicyName: 'AccessFishTable'
+#          PolicyDocument:
+#            Version: '2012-10-17'
+#            Statement:
+#            - Effect: Allow
+#              Action: dynamodb:*
+#              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Fish"
+#
+#        - PolicyName: 'AccessLogTable'
+#          PolicyDocument:
+#            Version: '2012-10-17'
+#            Statement:
+#              - Effect: Allow
+#                Action: dynamodb:*
+#                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Logs"
 
 
 
@@ -256,130 +256,22 @@ Resources:
   #-----------------------------------------------------
   # DynamoDB Configuration
   #-----------------------------------------------------
-  
-  PlaylistsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "id"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "id"
-          KeyType: "HASH"
-      BillingMode: "PAY_PER_REQUEST"
-      TableName: "playlists"
 
-  AlbumTracksTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "asin"
-          AttributeType: "S"
-        - AttributeName: "track_number"
-          AttributeType: "N"
-      KeySchema:
-        - AttributeName: "asin"
-          KeyType: "HASH"
-        - AttributeName: "track_number"
-          KeyType: "RANGE"
-      BillingMode: "PAY_PER_REQUEST"
-      TableName: "album_tracks"
-
-  MaterialsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "orgId"
-          AttributeType: "S"
-        - AttributeName: "materialId"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "orgId"
-          KeyType: "HASH"
-        - AttributeName: "materialId"
-          KeyType: "RANGE"
-      BillingMode: PAY_PER_REQUEST
-      TableName: "ProjectBinford_MaterialTable"
-
-  OrganizationsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "orgId"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "orgId"
-          KeyType: "HASH"
-      BillingMode: PAY_PER_REQUEST
-      TableName: "Organizations"
-
-  ProjectsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "orgId"
-          AttributeType: "S"
-        - AttributeName: "projectId"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "orgId"
-          KeyType: "HASH"
-        - AttributeName: "projectId"
-          KeyType: "RANGE"
-      BillingMode: PAY_PER_REQUEST
-      TableName: "Projects"
-
-  TaskTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "orgId"
-          AttributeType: "S"
-        - AttributeName: "taskId"
-          AttributeType: "S"
-        - AttributeName: "assignee"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "orgId"
-          KeyType: "HASH"
-        - AttributeName: "taskId"
-          KeyType: "RANGE"
-      BillingMode: PAY_PER_REQUEST
-      TableName: "ProjectBinford_TaskTable"
-      GlobalSecondaryIndexes:
-        - IndexName: "TasksSortByAssigneeIndex"
-          KeySchema:
-            - AttributeName: "orgId"
-              KeyType: "HASH"
-            - AttributeName: "assignee"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: "ALL"
-
-  UserRoleTable:
+  TanksTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
         - AttributeName: "userEmail"
           AttributeType: "S"
-        - AttributeName: "orgId"
+        - AttributeName: "tankId"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "userEmail"
           KeyType: "HASH"
-        - AttributeName: "orgId"
+        - AttributeName: "tankId"
           KeyType: "RANGE"
       BillingMode: PAY_PER_REQUEST
-      TableName: "ProjectBinford_UserRoleTable"
-      GlobalSecondaryIndexes:
-        - IndexName: "GetUsersForOrgIndex"
-          KeySchema:
-            - AttributeName: "orgId"
-              KeyType: "HASH"
-            - AttributeName: "userEmail"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: "ALL"
+      TableName: "AquariumBuddy-Tanks"
 
 #-----------------------------------------------------
 # The outputs defined below will be printed
