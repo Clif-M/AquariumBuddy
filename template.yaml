@@ -273,6 +273,49 @@ Resources:
       BillingMode: PAY_PER_REQUEST
       TableName: "AquariumBuddy-Tanks"
 
+  FishTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "userEmail"
+          AttributeType: "S"
+        - AttributeName: "fishId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "userEmail"
+          KeyType: "HASH"
+        - AttributeName: "fishId"
+          KeyType: "RANGE"
+      BillingMode: PAY_PER_REQUEST
+      TableName: "AquariumBuddy-Fish"
+
+  LogsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "userEmail"
+          AttributeType: "S"
+        - AttributeName: "logId"
+          AttributeType: "S"
+        - AttributeName: "type"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "userEmail"
+          KeyType: "HASH"
+        - AttributeName: "logId"
+          KeyType: "RANGE"
+      BillingMode: PAY_PER_REQUEST
+      TableName: "AquariumBuddy-Logs"
+      GlobalSecondaryIndexes:
+        - IndexName: "AquariumBuddy-LogsSortByType"
+          KeySchema:
+            - AttributeName: "type"
+              KeyType: "HASH"
+            - AttributeName: "logId"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+
 #-----------------------------------------------------
 # The outputs defined below will be printed
 #  to the screen after a successful deploy
