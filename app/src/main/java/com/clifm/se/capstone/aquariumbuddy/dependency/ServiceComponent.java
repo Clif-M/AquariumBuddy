@@ -1,5 +1,6 @@
 package com.clifm.se.capstone.aquariumbuddy.dependency;
 
+import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.CreateFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetSingleFishActivity;
 
 import dagger.Component;
@@ -15,4 +16,10 @@ public interface ServiceComponent {
      * @return GetSingleFishActivity
      */
     GetSingleFishActivity provideGetSingleFishActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return CreateFishActivity
+     */
+    CreateFishActivity provideCreateFishActivity();
 }

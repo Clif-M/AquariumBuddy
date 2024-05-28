@@ -43,4 +43,22 @@ public class FishDao {
         return fish;
     }
 
+    /**
+     * Saves provided Project to DynamoDB to create or update DynamoDB record.
+     *
+     * @param fish The Fish to be saved
+     */
+    public void writeFish(Fish fish) {
+        mapper.save(fish);
+    }
+
+    /**
+     * Removes the provided Project from DynamoDB, if present.
+     *
+     * @param fish The Project to be deleted
+     */
+    public void deleteFish(Fish fish) {
+        mapper.delete(fish);
+    }
+
 }
