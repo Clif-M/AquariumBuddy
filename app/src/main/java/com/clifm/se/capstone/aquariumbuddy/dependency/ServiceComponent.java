@@ -1,6 +1,7 @@
 package com.clifm.se.capstone.aquariumbuddy.dependency;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.CreateFishActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.DeleteFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetSingleFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.UpdateFishActivity;
@@ -36,4 +37,10 @@ public interface ServiceComponent {
      * @return GetFishActivity
      */
     GetFishActivity provideGetFishActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return DeleteFishActivity
+     */
+    DeleteFishActivity provideDeleteFishActivity();
 }

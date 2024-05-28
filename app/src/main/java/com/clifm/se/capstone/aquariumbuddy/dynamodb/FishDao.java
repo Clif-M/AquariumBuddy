@@ -73,12 +73,16 @@ public class FishDao {
     }
 
     /**
-     * Removes the provided Project from DynamoDB, if present.
+     * Removes the requested fish from DynamoDB, if present.
      *
-     * @param fish The Project to be deleted
+     * @param userEmail The userEmail to look up
+     * @param fishId The fishId to look up
+     * @return The corresponding Fish if found
      */
-    public void deleteFish(Fish fish) {
+    public Fish deleteFish(String userEmail, String fishId) {
+        Fish fish = mapper.load(Fish.class, userEmail, fishId);
         mapper.delete(fish);
+        return fish;
     }
 
 }
