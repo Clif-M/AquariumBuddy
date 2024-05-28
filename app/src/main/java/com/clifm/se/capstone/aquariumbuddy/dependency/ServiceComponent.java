@@ -3,6 +3,7 @@ package com.clifm.se.capstone.aquariumbuddy.dependency;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.CreateFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetSingleFishActivity;
 
+import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.UpdateFishActivity;
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -22,4 +23,10 @@ public interface ServiceComponent {
      * @return CreateFishActivity
      */
     CreateFishActivity provideCreateFishActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return UpdateFishActivity
+     */
+    UpdateFishActivity provideUpdateFishActivity();
 }
