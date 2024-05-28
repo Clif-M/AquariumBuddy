@@ -1,7 +1,5 @@
 package com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest;
 
-import java.net.http.HttpRequest;
-
 public class GetSingleFishRequest {
     private final String userEmail;
     private final String fishId;
