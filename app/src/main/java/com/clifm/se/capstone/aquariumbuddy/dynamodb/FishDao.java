@@ -4,7 +4,9 @@ import com.clifm.se.capstone.aquariumbuddy.dynamodb.models.Fish;
 import com.clifm.se.capstone.aquariumbuddy.exceptions.FishNotFoundException;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -28,7 +30,7 @@ public class FishDao {
     /**
      * Retrieves a Fish by userEmail and fishId.
      *
-     * If not found, throws TaskNotFoundException.
+     * If not found, throws FishNotFoundException.
      *
      * @param userEmail The userEmail to look up
      * @param fishId The fishId to look up
@@ -42,6 +44,24 @@ public class FishDao {
         }
         return fish;
     }
+
+    /**
+     * Retrieves a List of Fish by userEmail.
+     *
+     * If not found, throws FishNotFoundException.
+     *
+     * @param userEmail The userEmail to look up
+     *
+     * @return The corresponding List Fish if found
+     */
+    public List<Fish> getFish(String userEmail) {
+        Fish fish = new Fish();
+        fish.setUserEmail(userEmail);
+        DynamoDBQueryExpression<Fish> queryExpression = new DynamoDBQueryExpression<Fish>()
+                .withHashKeyValues(fish);
+        return mapper.query(Fish.class, queryExpression);
+    }
+
 
     /**
      * Saves provided Project to DynamoDB to create or update DynamoDB record.
