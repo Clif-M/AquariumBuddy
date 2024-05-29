@@ -73,8 +73,12 @@ public class Tank {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Tank tank = (Tank) o;
         return Objects.equals(userEmail, tank.userEmail) && Objects.equals(tankId, tank.tankId);
     }

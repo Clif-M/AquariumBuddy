@@ -62,8 +62,12 @@ public class Fish {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Fish fish = (Fish) o;
         return Objects.equals(userEmail, fish.userEmail) && Objects.equals(fishId, fish.fishId);
     }
