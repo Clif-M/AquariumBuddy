@@ -2,23 +2,14 @@ package com.nashss.se.capstone.aquariumbuddy.activity;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.DeleteFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest.DeleteFishRequest;
-import com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest.GetSingleFishRequest;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.FishDao;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.models.Fish;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.management.Query.times;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.mockito.MockitoAnnotations.openMocks;
 
 public class DeleteFishActivityTest {
     @Mock

@@ -2,7 +2,6 @@ package com.nashss.se.capstone.aquariumbuddy.activity;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest.GetFishRequest;
-import com.clifm.se.capstone.aquariumbuddy.activity.results.fishresults.GetFishResult;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.FishDao;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.models.Fish;
 import org.junit.jupiter.api.BeforeEach;

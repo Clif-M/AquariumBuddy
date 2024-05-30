@@ -207,22 +207,24 @@ Resources:
             - Effect: Allow
               Action: dynamodb:*
               Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Tanks"
-                
-#        - PolicyName: 'AccessFishTable'
-#          PolicyDocument:
-#            Version: '2012-10-17'
-#            Statement:
-#            - Effect: Allow
-#              Action: dynamodb:*
-#              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Fish"
-#
-#        - PolicyName: 'AccessLogTable'
-#          PolicyDocument:
-#            Version: '2012-10-17'
-#            Statement:
-#              - Effect: Allow
-#                Action: dynamodb:*
-#                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Logs"
+        - PolicyName: 'AccessLogTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Logs"
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Logs/index/AquariumBuddy-LogsSortByType"
+        - PolicyName: 'AccessFishTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action: dynamodb:*
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/AquariumBuddy-Fish"
+
 
 
 
@@ -395,6 +397,8 @@ Resources:
           AttributeType: "S"
         - AttributeName: "logId"
           AttributeType: "S"
+        - AttributeName: "tankId"
+          AttributeType: "S"
         - AttributeName: "type"
           AttributeType: "S"
       KeySchema:
@@ -407,9 +411,9 @@ Resources:
       GlobalSecondaryIndexes:
         - IndexName: "AquariumBuddy-LogsSortByType"
           KeySchema:
-            - AttributeName: "type"
+            - AttributeName: "tankId"
               KeyType: "HASH"
-            - AttributeName: "logId"
+            - AttributeName: "type"
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"
