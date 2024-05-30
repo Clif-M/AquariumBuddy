@@ -13,8 +13,18 @@ import java.util.Objects;
 public class Log {
     private String userEmail;
     private String logId;
+    private String tankId;
     private String type;
     private String notes;
+
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "tankId")
+    public String getTankId() {
+        return tankId;
+    }
+
+    public void setTankId(String tankId) {
+        this.tankId = tankId;
+    }
 
     @DynamoDBHashKey(attributeName = "userEmail")
     public String getUserEmail() {
@@ -26,7 +36,6 @@ public class Log {
     }
 
     @DynamoDBRangeKey(attributeName = "logId")
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType")
     public String getLogId() {
         return logId;
     }
@@ -35,7 +44,7 @@ public class Log {
         this.logId = logId;
     }
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "type")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "type")
     public String getType() {
         return type;
     }

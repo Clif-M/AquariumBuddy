@@ -6,6 +6,8 @@ import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetFishActivi
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetSingleFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.UpdateFishActivity;
 
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.CreateLogActivity;
+
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -43,4 +45,10 @@ public interface ServiceComponent {
      * @return DeleteFishActivity
      */
     DeleteFishActivity provideDeleteFishActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return CreateLogActivity
+     */
+    CreateLogActivity provideCreateLogActivity();
 }
