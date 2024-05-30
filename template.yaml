@@ -372,6 +372,26 @@ Resources:
             Path: /logs
             Method: post
 
+  GetLogsForTankLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.GetLogsForTankLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs/{tankId}
+            Method: get
+
   
   #-----------------------------------------------------
   # DynamoDB Configuration

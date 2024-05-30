@@ -3,7 +3,6 @@ package com.clifm.se.capstone.aquariumbuddy.activity.fishActivities;
 import com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest.DeleteFishRequest;
 import com.clifm.se.capstone.aquariumbuddy.activity.results.fishresults.DeleteFishResult;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.FishDao;
-import com.clifm.se.capstone.aquariumbuddy.dynamodb.models.Fish;
 
 import javax.inject.Inject;
 
