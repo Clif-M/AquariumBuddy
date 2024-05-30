@@ -37,9 +37,7 @@ public class DeleteFishActivity {
      */
 
     public DeleteFishResult handleRequest(final DeleteFishRequest deleteFishRequest) {
-        Fish fish = fishDao.deleteFish(deleteFishRequest.getUserEmail(), deleteFishRequest.getFishId());
-        return DeleteFishResult.builder()
-                .withFish(fish)
-                .build();
+        fishDao.deleteFish(deleteFishRequest.getUserEmail(), deleteFishRequest.getFishId());
+        return null;
     }
 }

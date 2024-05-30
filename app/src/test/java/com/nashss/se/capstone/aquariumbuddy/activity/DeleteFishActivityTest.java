@@ -35,8 +35,6 @@ public class DeleteFishActivityTest {
                 .withFishId(fishId)
                 .build();
 
-        doReturn(fish).when(fishDao).deleteFish(userEmail, fishId);
-
         // WHEN
         activity.handleRequest(request);
 
