@@ -1,16 +1,12 @@
 package com.clifm.se.capstone.aquariumbuddy.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.models.Tank;
 import com.clifm.se.capstone.aquariumbuddy.exceptions.TankNotFoundException;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Accesses data for a Tank using {@link Tank} to interact with the model in DynamoDB.
@@ -45,26 +41,6 @@ public class TankDao {
                     "Could not find tank with userEmail %s and tankId %s.", userEmail, tankId));
         }
         return tank;
-    }
-
-    /**
-     * Retrieves a List of tanks by tankId Using a GSI Index.
-     *
-     * If not found, throws TankNotFoundException.
-     *
-     * @param tankId The tankId to look up
-     *
-     * @return The corresponding List of Tanks if found
-     */
-    public List<Tank> getTanksforTank(String tankId) {
-        Map<String, AttributeValue> valueMap = new HashMap<>();
-        valueMap.put(":tankId", new AttributeValue(tankId));
-        DynamoDBQueryExpression<Tank> queryExpression = new DynamoDBQueryExpression<Tank>()
-                .withIndexName("AquariumBuddy-TanksSortByType")
-                .withConsistentRead(false)
-                .withKeyConditionExpression("tankId = :tankId")
-                .withExpressionAttributeValues(valueMap);
-        return mapper.query(Tank.class, queryExpression);
     }
 
 
