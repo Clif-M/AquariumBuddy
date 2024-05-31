@@ -2,13 +2,12 @@ package com.clifm.se.capstone.aquariumbuddy.activity.logactivities;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.requests.logrequest.GetLogsByTypeRequest;
 import com.clifm.se.capstone.aquariumbuddy.activity.results.logresults.GetLogsByTypeResult;
-import com.clifm.se.capstone.aquariumbuddy.activity.results.logresults.GetLogsByTypeResult;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.LogDao;
 import com.clifm.se.capstone.aquariumbuddy.dynamodb.models.Log;
 import com.clifm.se.capstone.aquariumbuddy.exceptions.LogNotFoundException;
 
-import javax.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Implementation of the GetLogActivity for the Log endpoint.

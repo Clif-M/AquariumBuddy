@@ -91,7 +91,7 @@ public class LogDao {
      * If not found, throws LogNotFoundException.
      *
      * @param tankId The tankId to look up
-     *
+     * @param type The type to look up
      * @return The corresponding List of Logs if found
      */
     public List<Log> getLogsByType(String tankId, String type) {
