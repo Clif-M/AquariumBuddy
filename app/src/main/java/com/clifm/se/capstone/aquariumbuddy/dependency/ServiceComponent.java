@@ -9,6 +9,7 @@ import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.UpdateFishAct
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.CreateLogActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.DeleteLogActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetLogsForTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetSingleLogActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.UpdateLogActivity;
 
 import dagger.Component;
@@ -72,5 +73,11 @@ public interface ServiceComponent {
      * @return DeleteLogActivity
      */
     DeleteLogActivity provideDeleteLogActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetSingleLogActivity
+     */
+    GetSingleLogActivity provideGetSingleLogActivity();
 
 }
