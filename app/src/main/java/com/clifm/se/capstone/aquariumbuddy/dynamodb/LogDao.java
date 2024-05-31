@@ -85,6 +85,27 @@ public class LogDao {
         return mapper.query(Log.class, queryExpression);
     }
 
+    /**
+     * Retrieves a List of logs by tankId and type Using a GSI Index.
+     *
+     * If not found, throws LogNotFoundException.
+     *
+     * @param tankId The tankId to look up
+     *
+     * @return The corresponding List of Logs if found
+     */
+    public List<Log> getLogsByType(String tankId, String type) {
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":tankId", new AttributeValue(tankId));
+        valueMap.put(":type", new AttributeValue(type));
+        DynamoDBQueryExpression<Log> queryExpression = new DynamoDBQueryExpression<Log>()
+                .withIndexName("AquariumBuddy-LogsSortByType")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("tankId = :tankId & type = :type")
+                .withExpressionAttributeValues(valueMap);
+        return mapper.query(Log.class, queryExpression);
+    }
+
 
     /**
      * Saves provided Log to DynamoDB to create or update DynamoDB record.
