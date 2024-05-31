@@ -24,7 +24,7 @@ public class LogDao {
     /**
      * Instantiates a LogDao object.
      *
-     * @param mapper the {@link DynamoDBMapper} used to interact with the Fish table
+     * @param mapper the {@link DynamoDBMapper} used to interact with the Log table
      */
     @Inject
     public LogDao(DynamoDBMapper mapper) {
@@ -37,8 +37,8 @@ public class LogDao {
      * If not found, throws LogNotFoundException.
      *
      * @param userEmail The userEmail to look up
-     * @param logId The fishId to look up
-     * @return The corresponding Fish if found
+     * @param logId The logId to look up
+     * @return The corresponding Log if found
      */
     public Log getSingleLog(String userEmail, String logId) {
         Log log = mapper.load(Log.class, userEmail, logId);
@@ -47,6 +47,22 @@ public class LogDao {
                     "Could not find log with userEmail %s and logId %s.", userEmail, logId));
         }
         return log;
+    }
+
+    /**
+     * Retrieves all logs for user by userEmail.
+     *
+     * If not found, throws LogNotFoundException.
+     *
+     * @param userEmail The userEmail to look up
+     * @return The corresponding Log if found
+     */
+    public List<Log> getLogs(String userEmail) {
+        Log log = new Log();
+        log.setUserEmail(userEmail);
+        DynamoDBQueryExpression<Log> queryExpression = new DynamoDBQueryExpression<Log>()
+                .withHashKeyValues(log);
+        return mapper.query(Log.class, queryExpression);
     }
 
     /**
