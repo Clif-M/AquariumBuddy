@@ -1,4 +1,4 @@
-package com.nashss.se.capstone.aquariumbuddy.activity;
+package com.nashss.se.capstone.aquariumbuddy.activity.fish;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.DeleteFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest.DeleteFishRequest;
@@ -34,8 +34,6 @@ public class DeleteFishActivityTest {
                 .withUserEmail(userEmail)
                 .withFishId(fishId)
                 .build();
-
-        doReturn(fish).when(fishDao).deleteFish(userEmail, fishId);
 
         // WHEN
         activity.handleRequest(request);

@@ -352,6 +352,146 @@ Resources:
             Path: /fish/{fishId}
             Method: delete
 
+  CreateLogLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.CreateLogLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs
+            Method: post
+
+  GetLogsForTankLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.GetLogsForTankLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs/tank/{tankId}
+            Method: get
+
+  UpdateLogLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.UpdateLogLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs
+            Method: put
+
+  DeleteLogLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.DeleteLogLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs/{logId}
+            Method: delete
+
+  GetSingleLogLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.GetSingleLogLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs/{logId}
+            Method: get
+
+  GetLogsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.GetLogsLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs
+            Method: get
+
+  GetLogsByTypeLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: com.clifm.se.capstone.aquariumbuddy.lambda.logLambda.GetLogsByTypeLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        AquariumBuddy:
+          Type: Api
+          Properties:
+            Path: /logs/tank/{tankId}/flavor/{flavor}
+            Method: get
+
   
   #-----------------------------------------------------
   # DynamoDB Configuration
@@ -399,7 +539,7 @@ Resources:
           AttributeType: "S"
         - AttributeName: "tankId"
           AttributeType: "S"
-        - AttributeName: "type"
+        - AttributeName: "flavor"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "userEmail"
@@ -413,7 +553,7 @@ Resources:
           KeySchema:
             - AttributeName: "tankId"
               KeyType: "HASH"
-            - AttributeName: "type"
+            - AttributeName: "flavor"
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"

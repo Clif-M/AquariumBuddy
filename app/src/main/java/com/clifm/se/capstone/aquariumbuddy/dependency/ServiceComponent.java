@@ -7,6 +7,12 @@ import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.GetSingleFish
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.UpdateFishActivity;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.CreateLogActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.DeleteLogActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetLogsActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetLogsByTypeActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetLogsForTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetSingleLogActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.UpdateLogActivity;
 
 import dagger.Component;
 
@@ -51,4 +57,41 @@ public interface ServiceComponent {
      * @return CreateLogActivity
      */
     CreateLogActivity provideCreateLogActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetLogsForTankActivity
+     */
+    GetLogsForTankActivity provideGetLogsForTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return UpdateLogActivity
+     */
+    UpdateLogActivity provideUpdateLogActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return DeleteLogActivity
+     */
+    DeleteLogActivity provideDeleteLogActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetSingleLogActivity
+     */
+    GetSingleLogActivity provideGetSingleLogActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetLogsActivity
+     */
+    GetLogsActivity provideGetLogsActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetLogsByTypeActivity
+     */
+    GetLogsByTypeActivity provideGetLogsByTypeActivity();
+
 }

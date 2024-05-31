@@ -1,4 +1,4 @@
-package com.nashss.se.capstone.aquariumbuddy.activity;
+package com.nashss.se.capstone.aquariumbuddy.activity.fish;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.fishActivities.UpdateFishActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.requests.fishrequest.UpdateFishRequest;

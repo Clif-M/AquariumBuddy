@@ -38,6 +38,7 @@ public class UpdateFishActivity {
 
     public UpdateFishResult handleRequest(final UpdateFishRequest updateFishRequest) {
         Fish fish = updateFishRequest.getFish();
+        fish.setUserEmail(updateFishRequest.getUserEmail());
         try {
             fishDao.getSingleFish(fish.getUserEmail(), fish.getFishId());
         } catch (FishNotFoundException e) {

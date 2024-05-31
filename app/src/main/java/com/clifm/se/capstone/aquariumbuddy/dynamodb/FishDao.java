@@ -77,12 +77,13 @@ public class FishDao {
      *
      * @param userEmail The userEmail to look up
      * @param fishId The fishId to look up
-     * @return The corresponding Fish if found
+     *
      */
-    public Fish deleteFish(String userEmail, String fishId) {
-        Fish fish = mapper.load(Fish.class, userEmail, fishId);
+    public void deleteFish(String userEmail, String fishId) {
+        Fish fish = new Fish();
+        fish.setFishId(fishId);
+        fish.setUserEmail(userEmail);
         mapper.delete(fish);
-        return fish;
     }
 
 }
