@@ -69,7 +69,7 @@ public class LogDaoTest {
         ArgumentCaptor<DynamoDBQueryExpression<Log>> argumentCaptor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
         doReturn(paginatedQueryList).when(mapper).query(eq(Log.class),any(DynamoDBQueryExpression.class));
         //WHEN
-        logDao.getLogsforTank(log.getUserEmail());
+        logDao.getLogsforTank(log.getTankId());
         //THEN
         verify(mapper).query(eq(Log.class),argumentCaptor.capture());
     }
@@ -91,5 +91,16 @@ public class LogDaoTest {
 
         //THEN
         verify(mapper).delete(any());
+    }
+
+    @Test
+    public void getLogs_something_somthing() {
+        //GIVEN
+        ArgumentCaptor<DynamoDBQueryExpression<Log>> argumentCaptor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
+        doReturn(paginatedQueryList).when(mapper).query(eq(Log.class),any(DynamoDBQueryExpression.class));
+        //WHEN
+        logDao.getLogs(log.getUserEmail());
+        //THEN
+        verify(mapper).query(eq(Log.class),argumentCaptor.capture());
     }
 }
