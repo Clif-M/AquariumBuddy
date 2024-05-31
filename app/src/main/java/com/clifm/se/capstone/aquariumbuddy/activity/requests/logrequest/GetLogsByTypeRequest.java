@@ -2,11 +2,11 @@ package com.clifm.se.capstone.aquariumbuddy.activity.requests.logrequest;
 
 public class GetLogsByTypeRequest {
     private final String tankId;
-    private final String type;
+    private final String flavor;
 
-    private GetLogsByTypeRequest(String tankId, String type) {
+    private GetLogsByTypeRequest(String tankId, String flavor) {
         this.tankId = tankId;
-        this.type = type;
+        this.flavor = flavor;
     }
 
     public String getTankId() {
@@ -14,7 +14,7 @@ public class GetLogsByTypeRequest {
     }
 
     public String getType() {
-        return type;
+        return flavor;
     }
 
     //CHECKSTYLE:OFF:BUILDER
@@ -24,20 +24,20 @@ public class GetLogsByTypeRequest {
 
     public static class Builder {
         private String tankId;
-        private String type;
+        private String flavor;
 
         public Builder withTankId(String tankId) {
             this.tankId = tankId;
             return this;
         }
 
-        public Builder withType(String Type) {
-            this.type = type;
+        public Builder withType(String flavor) {
+            this.flavor = flavor;
             return this;
         }
 
         public GetLogsByTypeRequest build() {
-            return new GetLogsByTypeRequest(tankId, type);
+            return new GetLogsByTypeRequest(tankId, flavor);
         }
     }
 }

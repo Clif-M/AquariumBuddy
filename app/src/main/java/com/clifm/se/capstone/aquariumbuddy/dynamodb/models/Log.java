@@ -14,7 +14,7 @@ public class Log {
     private String userEmail;
     private String logId;
     private String tankId;
-    private String type;
+    private String flavor;
     private String notes;
 
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "tankId")
@@ -45,12 +45,12 @@ public class Log {
     }
 
     @DynamoDBIndexRangeKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "type")
-    public String getType() {
-        return type;
+    public String getFlavor() {
+        return flavor;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setFlavor(String flavor) {
+        this.flavor = flavor;
     }
 
     @DynamoDBAttribute(attributeName = "notes")

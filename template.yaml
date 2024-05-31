@@ -489,7 +489,7 @@ Resources:
         AquariumBuddy:
           Type: Api
           Properties:
-            Path: /logs/tank/{tankId}/type/{type}
+            Path: /logs/tank/{tankId}/flavor/{flavor}
             Method: get
 
   
@@ -539,7 +539,7 @@ Resources:
           AttributeType: "S"
         - AttributeName: "tankId"
           AttributeType: "S"
-        - AttributeName: "type"
+        - AttributeName: "flavor"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "userEmail"
@@ -553,7 +553,7 @@ Resources:
           KeySchema:
             - AttributeName: "tankId"
               KeyType: "HASH"
-            - AttributeName: "type"
+            - AttributeName: "flavor"
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"

@@ -36,7 +36,7 @@ public class LogDaoTest {
         log.setUserEmail("email@email.com");
         log.setLogId("log01");
         log.setTankId("tankId");
-        log.setType("type");
+        log.setFlavor("type");
     }
 
     @Test
