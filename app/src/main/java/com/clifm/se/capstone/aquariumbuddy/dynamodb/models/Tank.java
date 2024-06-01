@@ -14,7 +14,6 @@ public class Tank {
     private String userEmail;
     private String tankId;
     private List<Fish> fishList;
-    private List<Log> logList;
     private Integer fishCount;
 
     @DynamoDBAttribute(attributeName = "name")
@@ -51,15 +50,6 @@ public class Tank {
 
     public void setFishList(List<Fish> fishList) {
         this.fishList = fishList;
-    }
-
-    @DynamoDBAttribute(attributeName = "logList")
-    public List<Log> getLogList() {
-        return logList;
-    }
-
-    public void setLogList(List<Log> logList) {
-        this.logList = logList;
     }
 
     @DynamoDBAttribute(attributeName = "fishCount")
