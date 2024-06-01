@@ -15,6 +15,7 @@ import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetSingleLogAc
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.UpdateLogActivity;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.CreateTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.DeleteTankActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetSingleTankActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetTanksActivity;
 
@@ -115,5 +116,11 @@ public interface ServiceComponent {
      * @return GetSingleTankActivity
      */
     GetSingleTankActivity provideGetSingleTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return DeleteTankActivity
+     */
+    DeleteTankActivity provideDeleteTankActivity();
 
 }

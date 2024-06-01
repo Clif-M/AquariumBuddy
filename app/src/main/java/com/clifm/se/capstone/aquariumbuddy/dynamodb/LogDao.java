@@ -120,13 +120,20 @@ public class LogDao {
      * Removes the requested Log from DynamoDB, if present.
      *
      * @param userEmail The userEmail to look up
-     * @param logId The logId to look up
-     * @return The corresponding Log if found
+     * @param logId     The logId to look up
      */
-    public Log deleteLog(String userEmail, String logId) {
+    public void deleteLog(String userEmail, String logId) {
         Log log = mapper.load(Log.class, userEmail, logId);
         mapper.delete(log);
-        return log;
+    }
+
+    /**
+     * Removes the requested Logs from DynamoDB, if present.
+     * Used to clean up logs when a Tank is deleted.
+     * @param tankId The tank to delete relevant logs
+     */
+    public void batchDeleteLogs(String tankId) {
+        mapper.batchDelete(this.getLogsforTank(tankId));
     }
 
 }
