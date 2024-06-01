@@ -13,7 +13,7 @@ public class GetLogsByTypeRequest {
         return tankId;
     }
 
-    public String getType() {
+    public String getFlavor() {
         return flavor;
     }
 
