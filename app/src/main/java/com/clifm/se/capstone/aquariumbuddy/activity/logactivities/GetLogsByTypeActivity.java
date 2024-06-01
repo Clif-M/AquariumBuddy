@@ -40,7 +40,7 @@ public class GetLogsByTypeActivity {
      */
 
     public GetLogsByTypeResult handleRequest(final GetLogsByTypeRequest getLogRequest) {
-        List<Log> logList = logDao.getLogsByType(getLogRequest.getTankId(), getLogRequest.getType());
+        List<Log> logList = logDao.getLogsByType(getLogRequest.getTankId(), getLogRequest.getFlavor());
         if (logList.isEmpty()) {
             throw new LogNotFoundException("No logs were found for this type");
         }

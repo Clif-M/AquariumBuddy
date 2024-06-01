@@ -13,7 +13,7 @@ public class GetLogsByTypeRequest {
         return tankId;
     }
 
-    public String getType() {
+    public String getFlavor() {
         return flavor;
     }
 
@@ -31,7 +31,7 @@ public class GetLogsByTypeRequest {
             return this;
         }
 
-        public Builder withType(String flavor) {
+        public Builder withFlavor(String flavor) {
             this.flavor = flavor;
             return this;
         }

@@ -44,7 +44,7 @@ public class Log {
         this.logId = logId;
     }
 
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "type")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "flavor")
     public String getFlavor() {
         return flavor;
     }
