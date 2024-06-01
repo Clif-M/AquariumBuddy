@@ -18,6 +18,7 @@ import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.CreateTankAct
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.DeleteTankActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetSingleTankActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetTanksActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.UpdateTankActivity;
 
 import dagger.Component;
 
@@ -122,5 +123,11 @@ public interface ServiceComponent {
      * @return DeleteTankActivity
      */
     DeleteTankActivity provideDeleteTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return UpdateTankActivity
+     */
+    UpdateTankActivity provideUpdateTankActivity();
 
 }
