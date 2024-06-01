@@ -15,6 +15,7 @@ import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetSingleLogAc
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.UpdateLogActivity;
 
 import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.CreateTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetTanksActivity;
 
 import dagger.Component;
 
@@ -101,5 +102,11 @@ public interface ServiceComponent {
      * @return CreateTankActivity
      */
     CreateTankActivity provideCreateTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetTanksActivity
+     */
+    GetTanksActivity provideGetTanksActivity();
 
 }
