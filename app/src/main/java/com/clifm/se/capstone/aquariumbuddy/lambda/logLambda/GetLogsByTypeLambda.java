@@ -18,7 +18,7 @@ public class GetLogsByTypeLambda
             () -> input.fromPath(path ->
                     GetLogsByTypeRequest.builder()
                             .withTankId(path.get("tankId"))
-                            .withType(path.get("flavor"))
+                            .withFlavor(path.get("flavor"))
                             .build()),
             (request, serviceComponent) ->
                     serviceComponent.provideGetLogsByTypeActivity().handleRequest(request)
