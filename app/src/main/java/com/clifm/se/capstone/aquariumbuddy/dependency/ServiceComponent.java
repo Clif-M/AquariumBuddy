@@ -14,6 +14,12 @@ import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetLogsForTank
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.GetSingleLogActivity;
 import com.clifm.se.capstone.aquariumbuddy.activity.logactivities.UpdateLogActivity;
 
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.CreateTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.DeleteTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetSingleTankActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.GetTanksActivity;
+import com.clifm.se.capstone.aquariumbuddy.activity.tankactivities.UpdateTankActivity;
+
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -93,5 +99,35 @@ public interface ServiceComponent {
      * @return GetLogsByTypeActivity
      */
     GetLogsByTypeActivity provideGetLogsByTypeActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return CreateTankActivity
+     */
+    CreateTankActivity provideCreateTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetTanksActivity
+     */
+    GetTanksActivity provideGetTanksActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetSingleTankActivity
+     */
+    GetSingleTankActivity provideGetSingleTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return DeleteTankActivity
+     */
+    DeleteTankActivity provideDeleteTankActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return UpdateTankActivity
+     */
+    UpdateTankActivity provideUpdateTankActivity();
 
 }
