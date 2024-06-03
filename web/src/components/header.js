@@ -1,4 +1,3 @@
-import UserRoleClient from '../api/userRoleClient';
 import BindingClass from "../util/bindingClass";
 
 /**
