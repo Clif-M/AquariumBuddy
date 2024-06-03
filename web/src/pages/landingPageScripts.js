@@ -1,6 +1,3 @@
-
-import OrganizationClient from '../api/organizationClient';
-import UserRoleClient from '../api/userRoleClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
