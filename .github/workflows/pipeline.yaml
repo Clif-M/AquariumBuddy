@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'feature**'
+      - 'deploy**'
 
 env:
 
@@ -60,7 +61,7 @@ jobs:
           sam build --template ${SAM_TEMPLATE}
 
   build-and-package-main:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/deploy')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -136,7 +137,7 @@ jobs:
           path: web/build
 
   deploy-to-aws:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/deploy')
     needs: [build-and-package-main]
     runs-on: ubuntu-latest
     steps:
