@@ -79,7 +79,11 @@ export default class TankClient extends BindingClass {
      */
     async getTank(id, errorCallback) {
         try {
-            const response = await this.axiosClient.get(`tanks/${id}`);
+            const response = await this.axiosClient.get(`tanks/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             return response.data.tank;
         } catch (error) {
             this.handleError(error, errorCallback)
@@ -134,19 +138,19 @@ export default class TankClient extends BindingClass {
      * @param trackNumber The track number of the song on the album.
      * @returns The list of songs on a tank.
      */
-    async addSongToTank(id, asin, trackNumber, errorCallback) {
+    async updateTank(tankId, name, fishlist, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can add a song to a tank.");
-            const response = await this.axiosClient.post(`tanks/${id}/songs`, {
-                id: id,
-                asin: asin,
-                trackNumber: trackNumber
+            const response = await this.axiosClient.put(`tanks`, {
+                tankId: tankId,
+                name: name,
+                fishlist: fishlist,
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.songList;
+            return response.data.tank;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

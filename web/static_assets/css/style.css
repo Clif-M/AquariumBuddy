@@ -23,6 +23,14 @@
     padding: 4px 20px;
 }
 
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
 .button {
   background-color: var(--tertiary-color);
   border: none;

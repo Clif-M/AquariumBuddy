@@ -45,12 +45,13 @@ class LandingPage extends BindingClass {
      */
     mount() {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
-        document.getElementById('search-playlists-form').addEventListener('submit', this.search);
-        document.getElementById('search-btn').addEventListener('click', this.search);
+        //document.getElementById('search-playlists-form').addEventListener('submit', this.search);
+        //document.getElementById('search-btn').addEventListener('click', this.search);
 
         this.header.addHeaderToPage();
         this.tankClient = new TankClient();
         this.client = new MusicPlaylistClient();
+        this.search();
     }
 
     /**
@@ -60,32 +61,19 @@ class LandingPage extends BindingClass {
      */
     async search(evt) {
         // Prevent submitting the from from reloading the page.
-        evt.preventDefault();
-
-        const searchCriteria = document.getElementById('search-criteria').value;
-        const previousSearchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
-
-        // If the user didn't change the search criteria, do nothing
-        if (previousSearchCriteria === searchCriteria) {
-            return;
-        }
-
-        if (searchCriteria) {
             const results = await this.tankClient.getTanks();
 
             this.dataStore.setState({
-                [SEARCH_CRITERIA_KEY]: searchCriteria,
+                [SEARCH_CRITERIA_KEY]: SEARCH_CRITERIA_KEY,
                 [SEARCH_RESULTS_KEY]: results,
             });
-        } else {
-            this.dataStore.setState(EMPTY_DATASTORE_STATE);
-        }
     }
 
     /**
      * Pulls search results from the datastore and displays them on the html page.
      */
-    displaySearchResults() {
+    async displaySearchResults() {
+        const usersName = await this.client.getIdentity();
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
@@ -99,7 +87,6 @@ class LandingPage extends BindingClass {
             searchResultsDisplay.innerHTML = '';
         } else {
             searchResultsContainer.classList.remove('hidden');
-            searchCriteriaDisplay.innerHTML = `"${searchCriteria}"`;
             searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults);
         }
     }
@@ -114,15 +101,13 @@ class LandingPage extends BindingClass {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table><tr><th>Name</th><th>Song Count</th><th>Tags</th></tr>';
+        let html = '<table class="table"><tr><th>Name</th></tr>';
         for (const res of searchResults) {
             html += `
             <tr>
                 <td>
                     <a href="playlist.html?id=${res.id}">${res.name}</a>
                 </td>
-                <td>${res.songCount}</td>
-                <td>${res.tags?.join(', ')}</td>
             </tr>`;
         }
         html += '</table>';
