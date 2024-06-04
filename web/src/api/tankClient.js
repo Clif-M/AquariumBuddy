@@ -15,7 +15,7 @@ export default class TankClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getTank', 'getTanks', 'createTank'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getTank', 'getTanks', 'createTank', 'deleteTank'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -121,6 +121,26 @@ export default class TankClient extends BindingClass {
             const response = await this.axiosClient.post(`tanks`, {
                 name: name
             }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.tank;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Delete a tank owned by the current user.
+     * @param name The name of the tank to create.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The tank that has been created.
+     */
+    async deleteTank(tankId, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can delete tanks.");
+            const response = await this.axiosClient.delete(`tanks/${tankId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
