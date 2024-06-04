@@ -2,6 +2,7 @@ import MusicPlaylistClient from '../api/musicPlaylistClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
+import TankClient from '../api/tankClient';
 
 /*
 The code below this comment is equivalent to...
@@ -23,9 +24,9 @@ const EMPTY_DATASTORE_STATE = {
 
 
 /**
- * Logic needed for the view playlist page of the website.
+ * Logic needed for the landing page of the website.
  */
-class SearchPlaylists extends BindingClass {
+class LandingPage extends BindingClass {
     constructor() {
         super();
 
@@ -35,7 +36,8 @@ class SearchPlaylists extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("searchPlaylists constructor");
+        
+        console.log("landingPage constructor");
     }
 
     /**
@@ -47,7 +49,7 @@ class SearchPlaylists extends BindingClass {
         document.getElementById('search-btn').addEventListener('click', this.search);
 
         this.header.addHeaderToPage();
-
+        this.tankClient = new TankClient();
         this.client = new MusicPlaylistClient();
     }
 
@@ -69,7 +71,7 @@ class SearchPlaylists extends BindingClass {
         }
 
         if (searchCriteria) {
-            const results = await this.client.search(searchCriteria);
+            const results = await this.tankClient.getTanks();
 
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: searchCriteria,
@@ -134,8 +136,8 @@ class SearchPlaylists extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const searchPlaylists = new SearchPlaylists();
-    searchPlaylists.mount();
+    const landingPage = new LandingPage();
+    landingPage.mount();
 };
 
 window.addEventListener('DOMContentLoaded', main);
