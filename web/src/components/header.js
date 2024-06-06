@@ -68,6 +68,7 @@ export default class Header extends BindingClass {
     createButton(text, clickHandler) {
         const button = document.createElement('a');
         button.classList.add('button');
+        button.classList.add('centered')
         button.href = '#';
         button.innerText = text;
 

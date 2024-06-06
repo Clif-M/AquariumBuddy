@@ -1,4 +1,3 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
@@ -30,13 +29,13 @@ class LandingPage extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'createTank'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        
+
         console.log("landingPage constructor");
     }
 
@@ -44,14 +43,18 @@ class LandingPage extends BindingClass {
      * Add the header to the page and load the MusicPlaylistClient.
      */
     mount() {
-        // Wire up the form's 'submit' event and the button's 'click' event to the search method.
-        //document.getElementById('search-playlists-form').addEventListener('submit', this.search);
-        //document.getElementById('search-btn').addEventListener('click', this.search);
-
         this.header.addHeaderToPage();
-        this.tankClient = new TankClient();
-        this.client = new MusicPlaylistClient();
+        this.client = new TankClient();
         this.search();
+        document.getElementById('create-tank').addEventListener('click', this.createTank)
+    }
+
+    async createTank(evt) {
+        const name = document.getElementById('tank-name').value;
+        this.client.createTank(name).then(response => {
+        }).catch(e => {
+            console.log(e);
+        });;
     }
 
     /**
@@ -60,20 +63,19 @@ class LandingPage extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async search(evt) {
-        // Prevent submitting the from from reloading the page.
-            const results = await this.tankClient.getTanks();
+        console.log("search function running");
+        const results = await this.client.getTanks();
 
-            this.dataStore.setState({
-                [SEARCH_CRITERIA_KEY]: SEARCH_CRITERIA_KEY,
-                [SEARCH_RESULTS_KEY]: results,
-            });
+        this.dataStore.setState({
+            [SEARCH_CRITERIA_KEY]: SEARCH_CRITERIA_KEY,
+            [SEARCH_RESULTS_KEY]: results,
+        });
     }
 
     /**
      * Pulls search results from the datastore and displays them on the html page.
      */
     async displaySearchResults() {
-        const usersName = await this.client.getIdentity();
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
@@ -88,6 +90,13 @@ class LandingPage extends BindingClass {
         } else {
             searchResultsContainer.classList.remove('hidden');
             searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults);
+
+            const table = document.getElementsByTagName("table")[0];
+
+            table.addEventListener('click', (e) => {
+                console.log(`${e.target.dataset.characterId} clicked`);
+                console.log(`${e.target.parentNode.dataset.rowId} row`);
+            })
         }
     }
 
@@ -106,7 +115,8 @@ class LandingPage extends BindingClass {
             html += `
             <tr>
                 <td>
-                    <a href="playlist.html?id=${res.id}">${res.name}</a>
+                    <a>${res.name}</a>
+                    <a href="tankDetails.html?id=${res.tankId}" class="button centered" id="details">Details</a>
                 </td>
             </tr>`;
         }

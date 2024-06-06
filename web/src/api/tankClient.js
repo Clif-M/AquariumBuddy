@@ -115,11 +115,13 @@ export default class TankClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async createTank(name, tags, errorCallback) {
+    async createTank(name, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
             const response = await this.axiosClient.post(`tanks`, {
+                tank:{
                 name: name
+                }
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
