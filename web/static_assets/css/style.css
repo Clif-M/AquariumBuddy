@@ -1,8 +1,8 @@
 :root {
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
-    --primary-color: #5D5E5E;
+    --primary-color: #00a8a8;
     --secondary-color: #ffffff;
-    --tertiary-color: #F5881F;
+    --tertiary-color: #0025f5;
     --error-color: #EE3A23;
 }
 
@@ -22,6 +22,14 @@
     color: var(--secondary-color);
     padding: 4px 20px;
 }
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 
 .button {
   background-color: var(--tertiary-color);
