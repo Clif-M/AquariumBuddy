@@ -26,6 +26,7 @@ module.exports = {
     createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
     viewPlaylist: path.resolve(__dirname, 'src', 'pages', 'viewPlaylist.js'),
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
+    tankDetails: path.resolve(__dirname, 'src', 'pages', 'tankDetails.js'),
   },
   output: {
     path: path.resolve(__dirname, 'build', 'assets'),
