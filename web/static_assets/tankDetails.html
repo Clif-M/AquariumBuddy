@@ -19,28 +19,30 @@
 
     <!-- External JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/landingPage.js"></script>
+    <script src="assets/tankDetails.js"></script>
 </head>
 
 <body class="background">
     <header class="header" id="header"></header>
     <div class="container-fluid">
-        <div class="card hidden centered" id="search-results-container">
-            <h2>My Tanks<span id="search-criteria-display"></span></h2>
+        <!--UPDATE TANK CARD-->
+        <div class="card centered">
+            <center><h2>Tank Details</h2></center>
+            <center><label>Tank Name</label></center>
+            <center><input type="text" class="validated-field" id="tank-name" autofocus></center>
+            <center><label>   </label></center>
+            <center> <a href="#" class="button" id="update-name">Update Name</a></center>
+
+            <!--End UPDATE TANK CARD-->
+        </div>
+        <!--Card for Logs List-->
+        <div class="card centered">
+            <h2>Logs</h2>
             <div id="search-results-display">
-                <!-- Search results will be displayed here -->
+                <!-- LOG Search results will be displayed here -->
             </div>
         </div>
-        <!--Start Input Fields-->
-        <div class="card centered">
-            <center><h2>Create New Tank</h2></center>
-            <center><label>Tank Name</label></center>
-            <center><input type="text" class="validated-field" id="tank-name" value="New Tank" autofocus></center>
-            <center><label>   </label></center>
-            <center> <a href="#" class="button" id="create-tank">Create Tank</a></center>
-
-            <!--End input fields-->
-        </div>
+        <!--END CARD FOR LOGLIST-->
     </div>
 </body>
 <footer>

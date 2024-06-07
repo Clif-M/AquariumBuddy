@@ -110,13 +110,15 @@ class LandingPage extends BindingClass {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table class="table"><tr><th>Name</th></tr>';
+        let html = '<table class="table"><tr><th>Name</th><th>Details</th></tr>';
         for (const res of searchResults) {
             html += `
             <tr>
                 <td>
                     <a>${res.name}</a>
-                    <a href="tankDetails.html?id=${res.tankId}" class="button centered" id="details">Details</a>
+                    <td><a href="tankDetails.html?id=${res.tankId}" class="button centered" id="details">Details</a></td>
+                    <td></td>
+                    <td><a href="#" class ="deletebutton centered" id="delete-tank">Delete</a></td>
                 </td>
             </tr>`;
         }
