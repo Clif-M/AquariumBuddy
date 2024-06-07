@@ -42,6 +42,17 @@
   cursor: pointer;
 }
 
+.deletebutton {
+    background-color: red;
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
 .button-group {
     display: flex;
     justify-content: space-between;

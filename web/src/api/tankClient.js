@@ -15,7 +15,7 @@ export default class TankClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getTank', 'getTanks', 'createTank', 'deleteTank'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getTank', 'getTanks', 'createTank', 'deleteTank', 'updateTank'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -79,6 +79,7 @@ export default class TankClient extends BindingClass {
      */
     async getTank(id, errorCallback) {
         try {
+            const token = await this.getTokenOrThrow("Encountered token error trying to call Tank endpoint.");
             const response = await this.axiosClient.get(`tanks/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -116,6 +117,31 @@ export default class TankClient extends BindingClass {
      * @returns The tank that has been created.
      */
     async createTank(name, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
+            const response = await this.axiosClient.post(`tanks`, {
+                tank:{
+                name: name
+                }
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.tank;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Updates a tank owned by the current user.
+     * @param name The name of the tank to update.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The tank that has been created.
+     */
+    async updateTank(name, errorCallback) {
+        //TODO ADD all fields for update
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
             const response = await this.axiosClient.post(`tanks`, {

@@ -25,18 +25,18 @@ const EMPTY_DATASTORE_STATE = {
 /**
  * Logic needed for the landing page of the website.
  */
-class LandingPage extends BindingClass {
+class TankDetails extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'createTank'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'updateTank'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
-        this.dataStore.addChangeListener(this.displaySearchResults);
+        // this.dataStore.addChangeListener(this.displaySearchResults);
 
-        console.log("landingPage constructor");
+        console.log("Tank Details constructor");
     }
 
     /**
@@ -46,12 +46,12 @@ class LandingPage extends BindingClass {
         this.header.addHeaderToPage();
         this.client = new TankClient();
         this.search();
-        document.getElementById('create-tank').addEventListener('click', this.createTank)
+        document.getElementById('update-name').addEventListener('click', this.updateTank)
     }
 
-    async createTank(evt) {
+    async updateTank(evt) {
         const name = document.getElementById('tank-name').value;
-        this.client.createTank(name).then(response => {
+        this.client.updateTank(name).then(response => {
         }).catch(e => {
             console.log(e);
         });;
@@ -60,11 +60,12 @@ class LandingPage extends BindingClass {
     /**
      * Uses the client to perform the search, 
      * then updates the datastore with the criteria and results.
-     * @param evt The "event" object representing the user-initiated event that triggered this method.
+     * 
      */
-    async search(evt) {
+    async search() {
         console.log("search function running");
-        const results = await this.client.getTanks();
+        const tankId = new URLSearchParams(window.location.search).get('id');
+        const results = await this.client.getTank(tankId);
 
         this.dataStore.setState({
             [SEARCH_CRITERIA_KEY]: SEARCH_CRITERIA_KEY,
@@ -131,7 +132,7 @@ class LandingPage extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const landingPage = new LandingPage();
+    const landingPage = new TankDetails();
     landingPage.mount();
 };
 
