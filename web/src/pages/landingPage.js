@@ -29,7 +29,7 @@ class LandingPage extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'createTank'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'createTank', 'deleteTank'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -55,6 +55,10 @@ class LandingPage extends BindingClass {
         }).catch(e => {
             console.log(e);
         });;
+    }
+
+    async deleteTank(evt) {
+        console.log('Delete Function called' + evt)
     }
 
     /**
@@ -89,14 +93,14 @@ class LandingPage extends BindingClass {
             searchResultsDisplay.innerHTML = '';
         } else {
             searchResultsContainer.classList.remove('hidden');
-            searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults);
-
+            this.getHTMLForSearchResults(searchResults);
+            
             const table = document.getElementsByTagName("table")[0];
 
-            table.addEventListener('click', (e) => {
-                console.log(`${e.target.dataset.characterId} clicked`);
-                console.log(`${e.target.parentNode.dataset.rowId} row`);
-            })
+            // table.addEventListener('click', (e) => {
+            //     console.log(`${e.target.dataset.characterId} clicked`);
+            //     console.log(`${e.target.parentNode.dataset.rowId} row`);
+            // })
         }
     }
 
@@ -106,25 +110,35 @@ class LandingPage extends BindingClass {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
-        if (searchResults.length === 0) {
-            return '<h4>No results found</h4>';
+        var preloads = document.getElementsByClassName('preload');
+        for (var i = 0; i < preloads.length; i++) {
+            preloads[i].hidden = false;
         }
 
-        let html = '<table class="table"><tr><th>Name</th><th>Details</th></tr>';
-        for (const res of searchResults) {
-            html += `
-            <tr>
-                <td>
-                    <a>${res.name}</a>
-                    <td><a href="tankDetails.html?id=${res.tankId}" class="button centered" id="details">Details</a></td>
-                    <td></td>
-                    <td><a href="#" class ="deletebutton centered" id="delete-tank">Delete</a></td>
-                </td>
-            </tr>`;
-        }
-        html += '</table>';
+        var table = document.getElementById("task-table");
+        var oldTableBody = table.getElementsByTagName('tbody')[0];
+        var newTableBody = document.createElement('tbody');
 
-        return html;
+        for (const tank of searchResults) {
+            var row = newTableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+
+            cell1.innerHTML = '<a href="tankDetails.html?id=' + tank.tankId + "\">" + tank.name + '</a>';
+
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.className = 'deletebutton';
+            deleteButton.setAttribute('data-tank-id', tank.tankId);
+            deleteButton.addEventListener('click', (event) => {
+                var tankId = event.target.getAttribute('data-tank-id');
+                this.deleteTank(tankId);
+            });
+
+            cell2.appendChild(deleteButton);
+        }
+
+        oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
     }
 
 }
