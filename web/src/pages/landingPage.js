@@ -59,6 +59,11 @@ class LandingPage extends BindingClass {
 
     async deleteTank(evt) {
         console.log('Delete Function called' + evt)
+        await this.client.deleteTank(evt).then(response => {
+        }).catch(e => {
+            console.log(e);
+        })
+        this.search();
     }
 
     /**
