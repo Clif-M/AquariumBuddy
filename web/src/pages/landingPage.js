@@ -55,6 +55,7 @@ class LandingPage extends BindingClass {
         }).catch(e => {
             console.log(e);
         });;
+        this.search();
     }
 
     async deleteTank(evt) {
@@ -62,7 +63,7 @@ class LandingPage extends BindingClass {
         await this.client.deleteTank(evt).then(response => {
         }).catch(e => {
             console.log(e);
-        })
+        });;
         this.search();
     }
 
@@ -120,7 +121,7 @@ class LandingPage extends BindingClass {
             preloads[i].hidden = false;
         }
 
-        var table = document.getElementById("task-table");
+        var table = document.getElementById("tank-table");
         var oldTableBody = table.getElementsByTagName('tbody')[0];
         var newTableBody = document.createElement('tbody');
 

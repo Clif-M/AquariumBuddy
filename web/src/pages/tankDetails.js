@@ -2,7 +2,7 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import TankClient from '../api/tankClient';
-
+import LogClient from '../api/logClient';
 /*
 The code below this comment is equivalent to...
 const EMPTY_DATASTORE_STATE = {
@@ -34,7 +34,7 @@ class TankDetails extends BindingClass {
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
-        // this.dataStore.addChangeListener(this.displaySearchResults);
+        this.dataStore.addChangeListener(this.displaySearchResults);
 
         console.log("Tank Details constructor");
     }
@@ -45,7 +45,9 @@ class TankDetails extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         this.client = new TankClient();
+        this.logClient = new LogClient();
         this.search();
+        this.loadTank();
         document.getElementById('update-name').addEventListener('click', this.updateTank)
     }
 
@@ -57,6 +59,12 @@ class TankDetails extends BindingClass {
         });;
     }
 
+    async loadTank() {
+        const tank = await this.client.getTank(new URLSearchParams(window.location.search).get('id'));
+        const nameField = document.getElementById('tank-name');
+        nameField.value = tank.name;
+    }
+
     /**
      * Uses the client to perform the search, 
      * then updates the datastore with the criteria and results.
@@ -65,7 +73,7 @@ class TankDetails extends BindingClass {
     async search() {
         console.log("search function running");
         const tankId = new URLSearchParams(window.location.search).get('id');
-        const results = await this.client.getTank(tankId);
+        const results = await this.logClient.getLogsForTank(tankId);
 
         this.dataStore.setState({
             [SEARCH_CRITERIA_KEY]: SEARCH_CRITERIA_KEY,
@@ -90,14 +98,14 @@ class TankDetails extends BindingClass {
             searchResultsDisplay.innerHTML = '';
         } else {
             searchResultsContainer.classList.remove('hidden');
-            searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults);
-
+            this.getHTMLForSearchResults(searchResults);
+            
             const table = document.getElementsByTagName("table")[0];
 
-            table.addEventListener('click', (e) => {
-                console.log(`${e.target.dataset.characterId} clicked`);
-                console.log(`${e.target.parentNode.dataset.rowId} row`);
-            })
+            // table.addEventListener('click', (e) => {
+            //     console.log(`${e.target.dataset.characterId} clicked`);
+            //     console.log(`${e.target.parentNode.dataset.rowId} row`);
+            // })
         }
     }
 
@@ -107,23 +115,37 @@ class TankDetails extends BindingClass {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
-        if (searchResults.length === 0) {
-            return '<h4>No results found</h4>';
+        var preloads = document.getElementsByClassName('preload');
+        for (var i = 0; i < preloads.length; i++) {
+            preloads[i].hidden = false;
         }
 
-        let html = '<table class="table"><tr><th>Name</th></tr>';
-        for (const res of searchResults) {
-            html += `
-            <tr>
-                <td>
-                    <a>${res.name}</a>
-                    <a href="tankDetails.html?id=${res.tankId}" class="button centered" id="details">Details</a>
-                </td>
-            </tr>`;
-        }
-        html += '</table>';
+        var table = document.getElementById("log-table");
+        var oldTableBody = table.getElementsByTagName('tbody')[0];
+        var newTableBody = document.createElement('tbody');
 
-        return html;
+        for (const log of searchResults) {
+            var row = newTableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+
+            cell1.innerHTML = '<a href="tankDetails.html?id=' + log.tankId + "\">" + log.flavor + '</a>';
+            cell2.innerHTML = log.notes;
+
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.className = 'deletebutton';
+            deleteButton.setAttribute('data-tank-id', log.tankId);
+            deleteButton.addEventListener('click', (event) => {
+                var tankId = event.target.getAttribute('data-tank-id');
+                this.deleteTank(tankId);
+            });
+
+            cell3.appendChild(deleteButton);
+        }
+
+        oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
     }
 
 }
