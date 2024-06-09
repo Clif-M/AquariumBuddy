@@ -140,14 +140,12 @@ export default class TankClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async updateTank(name, errorCallback) {
+    async updateTank(tank, errorCallback) {
         //TODO ADD all fields for update
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
-            const response = await this.axiosClient.post(`tanks`, {
-                tank:{
-                name: name
-                }
+            const response = await this.axiosClient.put(`tanks`, {
+                tank: tank
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -169,31 +167,6 @@ export default class TankClient extends BindingClass {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete tanks.");
             const response = await this.axiosClient.delete(`tanks/${tankId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            return response.data.tank;
-        } catch (error) {
-            this.handleError(error, errorCallback)
-        }
-    }
-
-    /**
-     * Add a song to a tank.
-     * @param id The id of the tank to add a song to.
-     * @param asin The asin that uniquely identifies the album.
-     * @param trackNumber The track number of the song on the album.
-     * @returns The list of songs on a tank.
-     */
-    async updateTank(tankId, name, fishlist, errorCallback) {
-        try {
-            const token = await this.getTokenOrThrow("Only authenticated users can add a song to a tank.");
-            const response = await this.axiosClient.put(`tanks`, {
-                tankId: tankId,
-                name: name,
-                fishlist: fishlist,
-            }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

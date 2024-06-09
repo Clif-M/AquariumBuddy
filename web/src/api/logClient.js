@@ -15,7 +15,7 @@ export default class LogClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getLog', 'getLogsForTank', 'createLog', 'deleteLog', 'updateLog'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getLog', 'getLogsForTank', 'createLog', 'deleteLog', 'updateLog', 'getLogsByType'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -91,6 +91,25 @@ export default class LogClient extends BindingClass {
         }
     }
 
+     /**
+     * Get the songs on a given tank by the tank's identifier.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The list of songs on a tank.
+     */
+     async getLogsByType(tankId, flavor, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Encountered token error trying to call log endpoint.");
+            const response = await this.axiosClient.get(`logs/tank/${tankId}/flavor/${flavor}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.log;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
     /**
      * Get the songs on a given tank by the tank's identifier.
      * @param errorCallback (Optional) A function to execute if the call fails.
@@ -98,7 +117,7 @@ export default class LogClient extends BindingClass {
      */
     async getLogsForTank(tankId, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Encountered token error trying to call Tank endpoint.");
+            const token = await this.getTokenOrThrow("Encountered token error trying to call log endpoint.");
             const response = await this.axiosClient.get(`logs/tank/${tankId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
