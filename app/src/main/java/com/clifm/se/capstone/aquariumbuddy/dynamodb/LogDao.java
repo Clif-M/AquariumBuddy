@@ -95,6 +95,9 @@ public class LogDao {
      * @return The corresponding List of Logs if found
      */
     public List<Log> getLogsByType(String tankId, String flavor) {
+        if (flavor.contains("%20")) {
+            flavor = flavor.replace("%20", " ");
+        }
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":tankId", new AttributeValue(tankId));
         valueMap.put(":flavor", new AttributeValue(flavor));
