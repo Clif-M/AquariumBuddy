@@ -169,7 +169,7 @@ class TankDetails extends BindingClass {
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
 
-            cell1.innerHTML = '<a href="tankDetails.html?id=' + log.tankId + "\">" + log.flavor + '</a>';
+            cell1.innerHTML = '<a href="logDetails.html?id=' + log.logId + "\">" + log.flavor + '</a>';
             cell2.innerHTML = log.logDate;
 
             var deleteButton = document.createElement('button');
@@ -177,7 +177,11 @@ class TankDetails extends BindingClass {
             deleteButton.className = 'deletebutton';
             deleteButton.setAttribute('data-log-id', log.logId);
             deleteButton.addEventListener('click', (event) => {
-                this.deleteLog(log.logId);
+                var result = confirm("Confirm Delete log?");
+                if (result) {
+                    this.deleteLog(log.logId);
+                }
+                
             });
 
             cell3.appendChild(deleteButton);

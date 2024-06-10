@@ -104,7 +104,10 @@ export default class LogClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.log;
+            const sortedResponse = response.data.log.sort(function (a, b) {
+                return a.logDate.localeCompare(b.logDate);
+            });;
+            return sortedResponse.reverse();
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -123,7 +126,10 @@ export default class LogClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.log;
+            const sortedResponse = response.data.log.sort(function (a, b) {
+                return a.logDate.localeCompare(b.logDate);
+            });;
+            return sortedResponse.reverse();
         } catch (error) {
             this.handleError(error, errorCallback)
         }

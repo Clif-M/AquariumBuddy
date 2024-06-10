@@ -99,7 +99,7 @@ class LandingPage extends BindingClass {
         } else {
             searchResultsContainer.classList.remove('hidden');
             this.getHTMLForSearchResults(searchResults);
-            
+
             const table = document.getElementsByTagName("table")[0];
 
             // table.addEventListener('click', (e) => {
@@ -136,8 +136,11 @@ class LandingPage extends BindingClass {
             deleteButton.className = 'deletebutton';
             deleteButton.setAttribute('data-tank-id', tank.tankId);
             deleteButton.addEventListener('click', (event) => {
-                var tankId = event.target.getAttribute('data-tank-id');
-                this.deleteTank(tankId);
+                var result = confirm("This will delete the tank and all of its logs. Are you sure?");
+                if (result) {
+                    var tankId = event.target.getAttribute('data-tank-id');
+                    this.deleteTank(tankId);
+                }
             });
 
             cell2.appendChild(deleteButton);
