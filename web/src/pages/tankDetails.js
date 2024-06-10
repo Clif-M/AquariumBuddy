@@ -55,15 +55,16 @@ class TankDetails extends BindingClass {
         // document.getElementById('search-logs-button').addEventListener('click', this.getLogsByType)
         document.getElementById('type-filter').addEventListener('change', this.getLogsByType);
 
+
     }
 
     async createLog() {
         const tankId = this.dataStore.get(TANK_KEY).tankId;
         const logType = document.getElementById('type-input').value;
         const date = document.getElementById('date').value;
+        console.log(date);
         const notes = document.getElementById('log-notes').value;
-
-        await this.logClient.createLog(logType, tankId, notes).then(response => {
+        await this.logClient.createLog(logType, tankId, notes, date).then(response => {
         }).catch(e => {
             console.log(e);
         });;
@@ -169,7 +170,7 @@ class TankDetails extends BindingClass {
             var cell3 = row.insertCell(2);
 
             cell1.innerHTML = '<a href="tankDetails.html?id=' + log.tankId + "\">" + log.flavor + '</a>';
-            cell2.innerHTML = log.notes;
+            cell2.innerHTML = log.logDate;
 
             var deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
