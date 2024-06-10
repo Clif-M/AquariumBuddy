@@ -35,11 +35,57 @@
 
             <!--End UPDATE TANK CARD-->
         </div>
+        <div class="card centered" id="create-logs-card">
+            <h2>Create Log</h2>
+            <label>Type</label>
+            <select name="Type" class="validated-field" id="type-input">
+                <option value="Water Change">Water Change</option>
+                <option value="Filter Cleaning">Filter Cleaning</option>
+                <option value="Top Off">Top off</option>
+                <option value="Glass Cleaning">Glass Cleaning</option>
+                <option value="Feeding">Feeding</option>
+                <option value="Aquascaping">Aquascaping</option>
+                <option value="Gravel Vacuum">Gravel Vacuum</option>
+                <option value="Other">Other</option>
+            </select>
+            <label>Date</label>
+            <input type="date" class="validated-field-date" id="date" autofocus="">
+            <label>Notes</label>
+            <center><input type="text" class="validated-field" id="log-notes" autofocus></center>
+            <center><label>   </label></center>
+            <button class="greenbutton" id="create-log-button">Create Log</button>
+        </div>
         <!--Card for Logs List-->
-        <div class="card centered">
-            <h2>Logs</h2>
+        <div class="card hidden centered" id="search-results-container">
+            <h2>Logs<span id="search-criteria-display"></span></h2>
+            <label>Filter By Type</label>
+            <select name="Type" class="validated-field" id="type-filter">
+                <option value="All">All</option>
+                <option value="Water Change">Water Change</option>
+                <option value="Filter Cleaning">Filter Cleaning</option>
+                <option value="Top Off">Top off</option>
+                <option value="Glass Cleaning">Glass Cleaning</option>
+                <option value="Feeding">Feeding</option>
+                <option value="Aquascaping">Aquascaping</option>
+                <option value="Gravel Vacuum">Gravel Vacuum</option>
+                <option value="Other">Other</option>
+            </select>
+            <center><label></label></center>
+            <button class="button" id="search-logs-button">Search</button>
             <div id="search-results-display">
-                <!-- LOG Search results will be displayed here -->
+                <p>
+                    <table id = "log-table" hidden = true class="preload">
+                        <thead>
+                            <tr>
+                            <th>Type</th>
+                            <th>Notes</th>
+                            <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                </p>
             </div>
         </div>
         <!--END CARD FOR LOGLIST-->

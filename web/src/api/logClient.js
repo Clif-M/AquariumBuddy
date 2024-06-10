@@ -10,12 +10,12 @@ import Authenticator from "./authenticator";
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Mix-ins
  * https://javascript.info/mixins
   */
-export default class TankClient extends BindingClass {
+export default class LogClient extends BindingClass {
 
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getTank', 'getTanks', 'createTank', 'deleteTank', 'updateTank'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getLog', 'getLogsForTank', 'createLog', 'deleteLog', 'updateLog', 'getLogsByType'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -72,20 +72,39 @@ export default class TankClient extends BindingClass {
     }
 
     /**
-     * Gets the tank for the given ID.
+     * Gets the Logs for the given TankID.
      * @param id Unique identifier for a tank
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank's metadata.
      */
-    async getTank(id, errorCallback) {
+    async getLog(logId, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Encountered token error trying to call Tank endpoint.");
-            const response = await this.axiosClient.get(`tanks/${id}`, {
+            const response = await this.axiosClient.get(`logs/${logId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.tank;
+            return response.data.log;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+     /**
+     * Get the songs on a given tank by the tank's identifier.
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The list of songs on a tank.
+     */
+     async getLogsByType(tankId, flavor, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Encountered token error trying to call log endpoint.");
+            const response = await this.axiosClient.get(`logs/tank/${tankId}/flavor/${flavor}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.log;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -96,15 +115,15 @@ export default class TankClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The list of songs on a tank.
      */
-    async getTanks(errorCallback) {
+    async getLogsForTank(tankId, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Encountered token error trying to call Tank endpoint.");
-            const response = await this.axiosClient.get(`tanks`, {
+            const token = await this.getTokenOrThrow("Encountered token error trying to call log endpoint.");
+            const response = await this.axiosClient.get(`logs/tank/${tankId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.tank;
+            return response.data.log;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -116,19 +135,21 @@ export default class TankClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async createTank(name, errorCallback) {
+    async createLog(flavor, tankId, notes,  errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
-            const response = await this.axiosClient.post(`tanks`, {
-                tank:{
-                name: name
+            const response = await this.axiosClient.post(`logs`, {
+                log:{
+                flavor: flavor,
+                notes: notes,
+                tankId: tankId
                 }
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.tank;
+            return response.data.log;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -140,18 +161,23 @@ export default class TankClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async updateTank(tank, errorCallback) {
+    async updateLog(logId, flavor, notes, tankId, errorCallback) {
         //TODO ADD all fields for update
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
-            const response = await this.axiosClient.put(`tanks`, {
-                tank: tank
+            const token = await this.getTokenOrThrow("Only authenticated users can update Logs.");
+            const response = await this.axiosClient.put(`logs`, {
+                log:{
+                    logId: logId,
+                    flavor: flavor,
+                    notes: notes,
+                    tankId: tankId
+                }
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.tank;
+            return response.data.log;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -163,15 +189,15 @@ export default class TankClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async deleteTank(tankId, errorCallback) {
+    async deleteLog(logId, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete tanks.");
-            const response = await this.axiosClient.delete(`tanks/${tankId}`, {
+            const response = await this.axiosClient.delete(`logs/${logId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.tank;
+            return response.data.log;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
