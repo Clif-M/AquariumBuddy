@@ -62,6 +62,7 @@ class TankDetails extends BindingClass {
         const tankId = this.dataStore.get(TANK_KEY).tankId;
         const logType = document.getElementById('type-input').value;
         const date = document.getElementById('date').value;
+        if(!date) {return alert("Date field required.")}
         console.log(date);
         const notes = document.getElementById('log-notes').value;
         await this.logClient.createLog(logType, tankId, notes, date).then(response => {
