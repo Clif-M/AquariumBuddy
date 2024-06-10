@@ -51,7 +51,7 @@ class LandingPage extends BindingClass {
 
     async createTank(evt) {
         const name = document.getElementById('tank-name').value;
-        this.client.createTank(name).then(response => {
+        await this.client.createTank(name).then(response => {
         }).catch(e => {
             console.log(e);
         });;
@@ -59,7 +59,6 @@ class LandingPage extends BindingClass {
     }
 
     async deleteTank(evt) {
-        console.log('Delete Function called' + evt)
         await this.client.deleteTank(evt).then(response => {
         }).catch(e => {
             console.log(e);
@@ -100,7 +99,7 @@ class LandingPage extends BindingClass {
         } else {
             searchResultsContainer.classList.remove('hidden');
             this.getHTMLForSearchResults(searchResults);
-            
+
             const table = document.getElementsByTagName("table")[0];
 
             // table.addEventListener('click', (e) => {
@@ -137,8 +136,11 @@ class LandingPage extends BindingClass {
             deleteButton.className = 'deletebutton';
             deleteButton.setAttribute('data-tank-id', tank.tankId);
             deleteButton.addEventListener('click', (event) => {
-                var tankId = event.target.getAttribute('data-tank-id');
-                this.deleteTank(tankId);
+                var result = confirm("This will delete the tank and all of its logs. Are you sure?");
+                if (result) {
+                    var tankId = event.target.getAttribute('data-tank-id');
+                    this.deleteTank(tankId);
+                }
             });
 
             cell2.appendChild(deleteButton);

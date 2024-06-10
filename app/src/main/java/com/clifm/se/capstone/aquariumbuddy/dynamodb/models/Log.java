@@ -16,6 +16,7 @@ public class Log {
     private String tankId;
     private String flavor;
     private String notes;
+    private String logDate;
 
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "AquariumBuddy-LogsSortByType", attributeName = "tankId")
     public String getTankId() {
@@ -60,6 +61,15 @@ public class Log {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @DynamoDBAttribute(attributeName = "logDate")
+    public String getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(String logDate) {
+        this.logDate = logDate;
     }
 
     @Override
