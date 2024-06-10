@@ -52,7 +52,9 @@ class TankDetails extends BindingClass {
         this.loadTank();
         document.getElementById('update-name').addEventListener('click', this.updateTank)
         document.getElementById('create-log-button').addEventListener('click', this.createLog)
-        document.getElementById('search-logs-button').addEventListener('click', this.getLogsByType)
+        // document.getElementById('search-logs-button').addEventListener('click', this.getLogsByType)
+        document.getElementById('type-filter').addEventListener('change', this.getLogsByType);
+
     }
 
     async createLog() {
@@ -68,16 +70,17 @@ class TankDetails extends BindingClass {
     }
 
     async getLogsByType() {
-    
+
         const tankId = this.dataStore.get(TANK_KEY).tankId;
         const logType = document.getElementById('type-filter').value;
+        this.dataStore.set([SEARCH_RESULTS_KEY], null);
         if (logType === "All") {
             return this.search();
         } else {
             const results = await this.logClient.getLogsByType(tankId, logType);
             console.log(results);
             this.dataStore.set([SEARCH_RESULTS_KEY], results);
-            
+
         }
 
     }
@@ -93,7 +96,7 @@ class TankDetails extends BindingClass {
         const name = document.getElementById('tank-name').value;
         const tank = this.dataStore.get(TANK_KEY);
         tank.name = name;
-    
+
         const results = await this.client.updateTank(tank).then(response => {
         }).catch(e => {
             console.log(e);
@@ -114,7 +117,7 @@ class TankDetails extends BindingClass {
      * 
      */
     async search() {
-        console.log("search function running");
+
         const tankId = new URLSearchParams(window.location.search).get('id');
         const results = await this.logClient.getLogsForTank(tankId);
 
@@ -127,13 +130,11 @@ class TankDetails extends BindingClass {
      * Pulls search results from the datastore and displays them on the html page.
      */
     async displaySearchResults() {
-        alert("displaySearchresultscalled");
-
         const searchResultsContainer = document.getElementById('search-results-container');
 
-            searchResultsContainer.classList.remove('hidden');
-            this.getHTMLForSearchResults();
-        
+        searchResultsContainer.classList.remove('hidden');
+        this.getHTMLForSearchResults();
+
     }
 
     /**
@@ -143,9 +144,13 @@ class TankDetails extends BindingClass {
      */
     getHTMLForSearchResults() {
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
-    
+
         if (!searchResults) {
-            return '<h4>No results found</h4>';
+            var table = document.getElementById("log-table");
+            var oldTableBody = table.getElementsByTagName('tbody')[0];
+            var newTableBody = document.createElement('tbody');
+            oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
+            return;
         }
         var preloads = document.getElementsByClassName('preload');
         for (var i = 0; i < preloads.length; i++) {
