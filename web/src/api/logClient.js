@@ -168,17 +168,12 @@ export default class LogClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async updateLog(logId, flavor, notes, tankId, errorCallback) {
+    async updateLog(log, errorCallback) {
         //TODO ADD all fields for update
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can update Logs.");
             const response = await this.axiosClient.put(`logs`, {
-                log:{
-                    logId: logId,
-                    flavor: flavor,
-                    notes: notes,
-                    tankId: tankId
-                }
+                log: log
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
