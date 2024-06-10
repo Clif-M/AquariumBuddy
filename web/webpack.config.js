@@ -25,6 +25,7 @@ module.exports = {
   entry: {
     landingPage: path.resolve(__dirname, 'src', 'pages', 'landingPage.js'),
     tankDetails: path.resolve(__dirname, 'src', 'pages', 'tankDetails.js'),
+    logDetails: path.resolve(__dirname, 'src', 'pages', 'logDetails.js'),
   },
   output: {
     path: path.resolve(__dirname, 'build', 'assets'),
