@@ -6,6 +6,16 @@
     --error-color: #EE3A23;
 }
 
+@font-face {
+    font-family: fatFish;
+    src: url(Fat-Fish.ttf);
+}
+
+h2 {
+    font-family: fatFish;
+    /* color: darkgreen; */
+ }
+
 .background {
     background-color: #8A8C8F;
     margin: 0;
@@ -73,8 +83,10 @@
     font-size: 36px;
     line-height: 40px;
     height: 100px;
+    text-align: center;
     text-decoration: none;
     color: var(--secondary-color);
+    font-family: fatFish;
 }
 
 .card {
