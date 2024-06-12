@@ -1,0 +1,185 @@
+@startuml
+left to right direction
+class  activity.logactivities.GetSingleLogActivity {
+- LogDao logDao
++ GetSingleLogResult handleRequest(GetSingleLogRequest)
+}
+class  dynamodb.FishDao {
+- DynamoDBMapper mapper
++ Fish getSingleFish(String,String)
++ List<Fish> getFish(String)
++ void writeFish(Fish)
++ void deleteFish(String,String)
+}
+class  dynamodb.models.Tank {
+- String name
+- String userEmail
+- String tankId
+- List<Fish> fishList
+- Integer fishCount
++ String getName()
++ void setName(String)
++ String getUserEmail()
++ void setUserEmail(String)
++ String getTankId()
++ void setTankId(String)
++ List<Fish> getFishList()
++ void setFishList(List<Fish>)
++ Integer getFishCount()
++ void setFishCount(Integer)
++ boolean equals(Object)
++ int hashCode()
+}
+class  dynamodb.models.Log {
+- String userEmail
+- String logId
+- String tankId
+- String flavor
+- String notes
+- String logDate
++ String getTankId()
++ void setTankId(String)
++ String getUserEmail()
++ void setUserEmail(String)
++ String getLogId()
++ void setLogId(String)
++ String getFlavor()
++ void setFlavor(String)
++ String getNotes()
++ void setNotes(String)
++ String getLogDate()
++ void setLogDate(String)
++ boolean equals(Object)
++ int hashCode()
+}
+class  dynamodb.TankDao {
+- DynamoDBMapper mapper
++ Tank getSingleTank(String,String)
++ List<Tank> getTanks(String)
++ void writeTank(Tank)
++ Tank deleteTank(String,String)
+}
+class  activity.logactivities.CreateLogActivity {
+- LogDao logDao
++ CreateLogResult handleRequest(CreateLogRequest)
+}
+class  activity.logactivities.UpdateLogActivity {
+- LogDao logDao
++ UpdateLogResult handleRequest(UpdateLogRequest)
+}
+class  activity.logactivities.GetLogsByTypeActivity {
+- LogDao logDao
++ GetLogsByTypeResult handleRequest(GetLogsByTypeRequest)
+}
+class  activity.tankactivities.GetSingleTankActivity {
+- TankDao tankDao
++ GetSingleTankResult handleRequest(GetSingleTankRequest)
+}
+class  dynamodb.models.Fish {
+- String name
+- String userEmail
+- String fishId
+- String imageUrl
+- String species
++ String getName()
++ void setName(String)
++ String getUserEmail()
++ void setUserEmail(String)
++ String getFishId()
++ void setFishId(String)
++ String getImageUrl()
++ void setImageUrl(String)
++ String getSpecies()
++ void setSpecies(String)
++ boolean equals(Object)
++ int hashCode()
+}
+class  activity.logactivities.GetLogsActivity {
+- LogDao logDao
++ GetLogsResult handleRequest(GetLogsRequest)
+}
+class  activity.tankactivities.GetTanksActivity {
+- TankDao tankDao
++ GetTanksResult handleRequest(GetTanksRequest)
+}
+class  activity.fishActivities.UpdateFishActivity {
+- FishDao fishDao
++ UpdateFishResult handleRequest(UpdateFishRequest)
+}
+class  activity.fishActivities.DeleteFishActivity {
+- FishDao fishDao
++ DeleteFishResult handleRequest(DeleteFishRequest)
+}
+class  activity.fishActivities.GetSingleFishActivity {
+- FishDao fishDao
++ GetSingleFishResult handleRequest(GetSingleFishRequest)
+}
+class  activity.tankactivities.UpdateTankActivity {
+- TankDao tankDao
++ UpdateTankResult handleRequest(UpdateTankRequest)
+}
+class  dynamodb.LogDao {
+- DynamoDBMapper mapper
++ Log getSingleLog(String,String)
++ List<Log> getLogs(String)
++ List<Log> getLogsforTank(String)
++ List<Log> getLogsByType(String,String)
++ void writeLog(Log)
++ void deleteLog(String,String)
++ void batchDeleteLogs(String)
+}
+class  activity.tankactivities.DeleteTankActivity {
+- TankDao tankDao
+- LogDao logDao
++ DeleteTankResult handleRequest(DeleteTankRequest)
+}
+class  activity.tankactivities.CreateTankActivity {
+- TankDao tankDao
++ CreateTankResult handleRequest(CreateTankRequest)
+}
+class  activity.fishActivities.GetFishActivity {
+- FishDao fishDao
++ GetFishResult handleRequest(GetFishRequest)
+}
+class  activity.logactivities.DeleteLogActivity {
+- LogDao logDao
++ DeleteLogResult handleRequest(DeleteLogRequest)
+}
+class  activity.fishActivities.CreateFishActivity {
+- FishDao fishDao
++ CreateFishResult handleRequest(CreateFishRequest)
+}
+class  activity.logactivities.GetLogsForTankActivity {
+- LogDao logDao
++ GetLogsForTankResult handleRequest(GetLogsForTankRequest)
+}
+
+database DynamoDB {
+}
+
+UpdateLogActivity *-- LogDao
+CreateLogActivity *-- LogDao
+DeleteLogActivity *-- LogDao
+GetSingleLogActivity *-- LogDao
+GetLogsForTankActivity *-- LogDao
+GetLogsActivity *-- LogDao
+GetLogsByTypeActivity *-- LogDao
+
+UpdateTankActivity *-- TankDao
+CreateTankActivity *-- TankDao
+DeleteTankActivity *-- TankDao
+DeleteTankActivity *-- LogDao
+GetTanksActivity *-- TankDao
+GetSingleTankActivity *-- TankDao
+
+CreateFishActivity *-- FishDao
+DeleteFishActivity *-- FishDao
+GetFishActivity *-- FishDao
+GetSingleFishActivity *-- FishDao
+UpdateFishActivity *-- FishDao
+
+FishDao *-- DynamoDB
+TankDao *-- DynamoDB
+LogDao *-- DynamoDB
+
+@enduml
