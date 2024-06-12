@@ -115,6 +115,13 @@ class LandingPage extends BindingClass {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
+        if (!searchResults) {
+            var table = document.getElementById("tank-table");
+            var oldTableBody = table.getElementsByTagName('tbody')[0];
+            var newTableBody = document.createElement('tbody');
+            oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
+            return;
+        }
         var preloads = document.getElementsByClassName('preload');
         for (var i = 0; i < preloads.length; i++) {
             preloads[i].hidden = false;
