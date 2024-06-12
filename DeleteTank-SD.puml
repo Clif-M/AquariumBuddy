@@ -1,0 +1,42 @@
+@startuml
+
+actor "Client" as client
+participant "API Gateway/Lambda" as apiGateway
+participant "DeleteTankActivity" as DeleteTankActivity
+participant "TankDao" as tankDao
+participant "LogDao" as logDao
+database "DynamoDB" as dynamoDB
+
+title Delete Tank Endpoint (& Logs)
+
+client -> apiGateway : HTTP Request
+activate apiGateway
+
+apiGateway -> DeleteTankActivity : DeleteTankRequest
+activate DeleteTankActivity
+
+DeleteTankActivity -> logDao : batch delete all logs for tank
+activate logDao
+
+logDao -> dynamoDB  : delete logs
+activate dynamoDB
+dynamoDB -> logDao : return 200 Response
+logDao -> DeleteTankActivity : return 200 response
+deactivate dynamoDB
+deactivate logDao
+
+DeleteTankActivity -> tankDao : delete tank
+activate tankDao
+
+tankDao -> dynamoDB : delete tank
+activate dynamoDB
+dynamoDB --> tankDao : return 200 response
+deactivate dynamoDB
+
+tankDao --> DeleteTankActivity : return 200 response
+deactivate tankDao
+
+DeleteTankActivity --> apiGateway : return DeleteTankResult\n.builder(Tank)
+apiGateway --> client : return 204 response no data
+
+@enduml
