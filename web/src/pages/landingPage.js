@@ -135,8 +135,17 @@ class LandingPage extends BindingClass {
             var row = newTableBody.insertRow();
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
 
-            cell1.innerHTML = '<a href="tankDetails.html?id=' + tank.tankId + "\">" + tank.name + '</a>';
+
+            cell1.innerHTML = tank.name;
+
+            cell2.innerHTML = '<a href="tankDetails.html?id=' + tank.tankId + "\" class=\"greenbutton\" id=\"fish-button\">" + "Logs" + '</a>';
+
+            cell3.innerHTML = '<a href=fishList.html?id=' + tank.tankId + "\" class=\"button\" id=\"fish-button\">" + "Fish" + '</a>';
+
+
 
             var deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
@@ -150,7 +159,7 @@ class LandingPage extends BindingClass {
                 }
             });
 
-            cell2.appendChild(deleteButton);
+            cell4.appendChild(deleteButton);
         }
 
         oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
