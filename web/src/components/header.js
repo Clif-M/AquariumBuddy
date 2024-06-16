@@ -10,11 +10,24 @@ export default class Header extends BindingClass {
 
         const methodsToBind = [
             'addHeaderToPage', 'createSiteTitle', 'createUserInfoForHeader',
-            'createLoginButton', 'createLoginButton', 'createLogoutButton'
+            'createLoginButton', 'createLoginButton', 'createLogoutButton', 'createNavButton'
         ];
         this.bindClassMethods(methodsToBind, this);
 
         this.client = new LogClient();
+    }
+
+    createNavButton(text, htmlTarget) {
+        const button = document.createElement('a');
+        button.classList.add('navbutton');
+        button.href = htmlTarget;
+        button.innerText = text;
+
+        button.addEventListener('click', async () => {
+            await clickHandler();
+        });
+
+        return button;
     }
 
     /**
@@ -26,8 +39,13 @@ export default class Header extends BindingClass {
         const siteTitle = this.createSiteTitle();
         const userInfo = this.createUserInfoForHeader(currentUser);
 
+        const navToIndex = this.createNavButton("My Tanks", 'index.html');
+        const navTocreateFish = this.createNavButton("Create Fish", 'createFish.html');
+
         const header = document.getElementById('header');
         header.appendChild(siteTitle);
+        header.appendChild(navToIndex);
+        header.appendChild(navTocreateFish);
         header.appendChild(userInfo);
     }
 
@@ -67,7 +85,7 @@ export default class Header extends BindingClass {
 
     createButton(text, clickHandler) {
         const button = document.createElement('a');
-        button.classList.add('button');
+        button.classList.add('navbutton');
         button.classList.add('centered')
         button.href = '#';
         button.innerText = text;

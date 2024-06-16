@@ -52,6 +52,23 @@ h2 {
   cursor: pointer;
 }
 
+.navbutton {
+    background-color: var(--tertiary-color);
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    /* font-weight: bold; */
+    font-family: fatFish;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .navbutton:hover {
+    background-color: #0077e6;
+}
+
+
 .greenbutton {
     background-color: green;
     border: none;
@@ -93,7 +110,8 @@ h2 {
     color: var(--primary-color);
     background-color: var(--secondary-color);
     margin: 20px;
-    padding: 10px 20px;
+    padding: 5px 10px;
+    min-width: 450;
 }
 
 .error {
@@ -165,7 +183,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CS
 /* table styles */ 
 
 th, td {
-    padding: 15px;
+    padding: 10px;
     text-align: left;
 }
 
