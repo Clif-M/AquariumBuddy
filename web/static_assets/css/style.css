@@ -52,6 +52,12 @@ h2 {
   cursor: pointer;
 }
 
+img{
+    /* width:100%; */
+    max-width:120px;
+    max-width: 120px;
+}
+
 .navbutton {
     background-color: var(--tertiary-color);
     border: none;

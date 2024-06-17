@@ -143,7 +143,7 @@ class LandingPage extends BindingClass {
 
             cell2.innerHTML = '<a href="tankDetails.html?id=' + tank.tankId + "\" class=\"greenbutton\" id=\"fish-button\">" + "Logs" + '</a>';
 
-            cell3.innerHTML = '<a href=fishList.html?id=' + tank.tankId + "\" class=\"button\" id=\"fish-button\">" + "Fish" + '</a>';
+            cell3.innerHTML = '<a href="fishList.html?id=' + tank.tankId + "\" class=\"button\" id=\"fish-button\">" + "Fish" + '</a>';
 
 
 
