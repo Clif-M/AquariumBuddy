@@ -90,7 +90,7 @@ class LandingPage extends BindingClass {
         const searchCriteriaDisplay = document.getElementById('search-criteria-display');
         const searchResultsDisplay = document.getElementById('search-results-display');
 
-        if (searchCriteria === '') {
+        if (searchResults.length === 0) {
             searchResultsContainer.classList.add('hidden');
             searchCriteriaDisplay.innerHTML = '';
             searchResultsDisplay.innerHTML = '';
