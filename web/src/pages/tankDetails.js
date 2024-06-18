@@ -38,7 +38,6 @@ class TankDetails extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("Tank Details constructor");
     }
 
     /**
@@ -50,9 +49,8 @@ class TankDetails extends BindingClass {
         this.logClient = new LogClient();
         this.search();
         this.loadTank();
-        document.getElementById('update-name').addEventListener('click', this.updateTank)
-        document.getElementById('create-log-button').addEventListener('click', this.createLog)
-        // document.getElementById('search-logs-button').addEventListener('click', this.getLogsByType)
+        document.getElementById('update-name').addEventListener('click', this.updateTank);
+        document.getElementById('create-log-button').addEventListener('click', this.createLog);
         document.getElementById('type-filter').addEventListener('change', this.getLogsByType);
 
 
@@ -81,7 +79,6 @@ class TankDetails extends BindingClass {
             return this.search();
         } else {
             const results = await this.logClient.getLogsByType(tankId, logType);
-            console.log(results);
             this.dataStore.set([SEARCH_RESULTS_KEY], results);
 
         }
@@ -100,10 +97,7 @@ class TankDetails extends BindingClass {
         const tank = this.dataStore.get(TANK_KEY);
         tank.name = name;
 
-        const results = await this.client.updateTank(tank).then(response => {
-        }).catch(e => {
-            console.log(e);
-        });;
+        const results = await this.client.updateTank(tank);
         this.dataStore.set([TANK_KEY], results);
     }
 

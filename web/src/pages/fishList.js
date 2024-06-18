@@ -39,7 +39,6 @@ class FishList extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("Fish Details constructor");
     }
 
     /**
@@ -68,9 +67,7 @@ class FishList extends BindingClass {
         this.dataStore.set([FISH_LOADED], list);
         var tank = this.dataStore.get(TANK_KEY);
         tank.fishList = list;
-        console.log(tank.fishList);
         this.dataStore.set([TANK_KEY], tank);
-        console.log(this.dataStore.get(TANK_KEY))
         this.updateTank();
     }
 
@@ -143,8 +140,6 @@ class FishList extends BindingClass {
      */
     getHTMLForSearchResults() {
         const searchResults = this.dataStore.get(FISH_LOADED);
-        console.log("GETHTML CALLED")
-        console.log(searchResults);
 
         if (!searchResults) {
             var table = document.getElementById("fish-table");

@@ -36,7 +36,6 @@ class LandingPage extends BindingClass {
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
 
-        console.log("landingPage constructor");
     }
 
     /**
@@ -72,7 +71,6 @@ class LandingPage extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async search(evt) {
-        console.log("search function running");
         const results = await this.client.getTanks();
 
         this.dataStore.setState({
