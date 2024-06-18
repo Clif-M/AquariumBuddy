@@ -2,7 +2,7 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import TankClient from '../api/tankClient';
-import LogClient from '../api/logClient';
+import FishClient from '../api/fishClient';
 /*
 The code below this comment is equivalent to...
 const EMPTY_DATASTORE_STATE = {
@@ -15,30 +15,31 @@ The "KEY" constants will be reused a few times below.
 */
 
 const TANK_KEY = 'tank-key';
-const LOGS_LOADED = 'logs-key';
+const FISH_LOADED = 'fish-key';
 
 const SEARCH_CRITERIA_KEY = 'search-criteria';
 const SEARCH_RESULTS_KEY = 'search-results';
 const EMPTY_DATASTORE_STATE = {
     [SEARCH_CRITERIA_KEY]: '',
     [SEARCH_RESULTS_KEY]: [],
+    [FISH_LOADED]: [],
 };
 
 
 /**
- * Logic needed for the landing page of the website.
+ * Fishic needed for the landing page of the website.
  */
-class TankDetails extends BindingClass {
+class FishList extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'updateTank', 'createLog', 'deleteLog', 'getLogsByType', 'loadTank'], this);
+        this.bindClassMethods(['mount', 'displaySearchResults', 'getHTMLForSearchResults', 'updateTank', 'createFish', 'deleteFish', 'loadTank'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("Tank Details constructor");
+        console.log("Fish Details constructor");
     }
 
     /**
@@ -47,52 +48,54 @@ class TankDetails extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         this.client = new TankClient();
-        this.logClient = new LogClient();
-        this.search();
+        this.fishClient = new FishClient();
         this.loadTank();
         document.getElementById('update-name').addEventListener('click', this.updateTank)
-        document.getElementById('create-log-button').addEventListener('click', this.createLog)
-        // document.getElementById('search-logs-button').addEventListener('click', this.getLogsByType)
-        document.getElementById('type-filter').addEventListener('change', this.getLogsByType);
+        document.getElementById('create-fish-button').addEventListener('click', this.createFish)
+        // document.getElementById('search-fish-button').addEventListener('click', this.getFishByType)
 
 
     }
 
-    async createLog() {
-        const tankId = this.dataStore.get(TANK_KEY).tankId;
-        const logType = document.getElementById('type-input').value;
-        const date = document.getElementById('date').value;
-        if(!date) {return alert("Date field required.")}
-        const notes = document.getElementById('log-notes').value;
-        var log = await this.logClient.createLog(logType, tankId, notes, date);
-
-        var logList = this.dataStore.get(SEARCH_RESULTS_KEY);
-        logList.unshift(log);
-        this.dataStore.set([SEARCH_RESULTS_KEY], logList);
-
+    async createFish() {
+        const name = document.getElementById('fish-name').value;
+        const imageUrl = document.getElementById('fish-url').value;
+        const species = document.getElementById('fish-species').value;
+    
+        const fish = await this.fishClient.createFish(name, imageUrl, species);
+        var list = this.dataStore.get(FISH_LOADED);
+        list.push(fish);
+        this.dataStore.set([FISH_LOADED], list);
+        var tank = this.dataStore.get(TANK_KEY);
+        tank.fishList = list;
+        console.log(tank.fishList);
+        this.dataStore.set([TANK_KEY], tank);
+        console.log(this.dataStore.get(TANK_KEY))
+        this.updateTank();
     }
 
-    async getLogsByType() {
 
-        const tankId = this.dataStore.get(TANK_KEY).tankId;
-        const logType = document.getElementById('type-filter').value;
-        this.dataStore.set([SEARCH_RESULTS_KEY], null);
-        if (logType === "All") {
-            return this.search();
-        } else {
-            const results = await this.logClient.getLogsByType(tankId, logType);
-            console.log(results);
-            this.dataStore.set([SEARCH_RESULTS_KEY], results);
+    async deleteFish(fishId) {
+       
+        var fishList = this.dataStore.get(FISH_LOADED);
+       
 
-        }
+        fishList = fishList.filter(fish => fish.fishId !== fishId);
+      
 
-    }
+        var tank = this.dataStore.get(TANK_KEY);
+        tank.fishList = fishList;
+      
+       
+        this.dataStore.set([TANK_KEY], tank);
+        this.dataStore.set([FISH_LOADED], tank.fishList);
+        
+        
+        await this.updateTank();
+        
+        await this.fishClient.deleteFish(fishId);
 
-    async deleteLog(logId) {
-        var logList = this.dataStore.get(SEARCH_RESULTS_KEY);
-        logList = logList.filter(log => log.logId !== logId);
-        this.dataStore.set([SEARCH_RESULTS_KEY], logList);
-        await this.logClient.deleteLog(logId);
+        this.getHTMLForSearchResults();
     }
 
     async updateTank() {
@@ -100,10 +103,7 @@ class TankDetails extends BindingClass {
         const tank = this.dataStore.get(TANK_KEY);
         tank.name = name;
 
-        const results = await this.client.updateTank(tank).then(response => {
-        }).catch(e => {
-            console.log(e);
-        });;
+        const results = await this.client.updateTank(tank);
         this.dataStore.set([TANK_KEY], results);
     }
 
@@ -112,22 +112,18 @@ class TankDetails extends BindingClass {
         const nameField = document.getElementById('tank-name');
         nameField.value = tank.name;
         this.dataStore.set([TANK_KEY], tank);
+
+        var list = new Array();
+        if (tank.fishList) {
+        for (const fish of tank.fishList) {
+            const loadedFish = await this.fishClient.getSingleFish(fish.fishId);
+            list.push(loadedFish);
+        }
+    }
+        this.dataStore.set([FISH_LOADED], list);
+
     }
 
-    /**
-     * Uses the client to perform the search, 
-     * then updates the datastore with the criteria and results.
-     * 
-     */
-    async search() {
-
-        const tankId = new URLSearchParams(window.location.search).get('id');
-        const results = await this.logClient.getLogsForTank(tankId);
-
-        this.dataStore.set([SEARCH_RESULTS_KEY], results);
-
-
-    }
 
     /**
      * Pulls search results from the datastore and displays them on the html page.
@@ -146,10 +142,12 @@ class TankDetails extends BindingClass {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults() {
-        const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
+        const searchResults = this.dataStore.get(FISH_LOADED);
+        console.log("GETHTML CALLED")
+        console.log(searchResults);
 
         if (!searchResults) {
-            var table = document.getElementById("log-table");
+            var table = document.getElementById("fish-table");
             var oldTableBody = table.getElementsByTagName('tbody')[0];
             var newTableBody = document.createElement('tbody');
             oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody);
@@ -160,29 +158,31 @@ class TankDetails extends BindingClass {
             preloads[i].hidden = false;
         }
 
-        var table = document.getElementById("log-table");
+        var table = document.getElementById("fish-table");
         var oldTableBody = table.getElementsByTagName('tbody')[0];
         var newTableBody = document.createElement('tbody');
 
 
-        for (const log of searchResults) {
+        for (const fish of searchResults) {
+            if (!fish) {continue;}
             var row = newTableBody.insertRow();
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
 
-            cell1.innerHTML = '<a href="logDetails.html?id=' + log.logId 
-            + '&tankId=' +  new URLSearchParams(window.location.search).get('id') + "\">" + log.flavor + '</a>';
-            cell2.innerHTML = log.logDate;
+            cell1.innerHTML ='<a href="fishDetails.html?id=' + fish.fishId + '&tankId=' +  new URLSearchParams(window.location.search).get('id') + "\">" + '<figure><img src="' + fish.imageUrl + '"' +  "alt='No Image Available.'/>" +
+            "<figcaption>" + fish.name + "</figcaption>" + "</figure>" + '</a>';
+
+            cell2.innerHTML = fish.species;
 
             var deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.className = 'deletebutton';
-            deleteButton.setAttribute('data-log-id', log.logId);
+            deleteButton.setAttribute('data-fish-id', fish.fishId);
             deleteButton.addEventListener('click', (event) => {
-                var result = confirm("Confirm Delete log?");
+                var result = confirm("Confirm Delete fish?");
                 if (result) {
-                    this.deleteLog(log.logId);
+                    this.deleteFish(fish.fishId);
                 }
                 
             });
@@ -199,7 +199,7 @@ class TankDetails extends BindingClass {
  * Main method to run when the page contents have loaded.
  */
 const main = async () => {
-    const landingPage = new TankDetails();
+    const landingPage = new FishList();
     landingPage.mount();
 };
 
