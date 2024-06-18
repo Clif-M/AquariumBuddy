@@ -39,13 +39,8 @@ export default class Header extends BindingClass {
         const siteTitle = this.createSiteTitle();
         const userInfo = this.createUserInfoForHeader(currentUser);
 
-        const navToIndex = this.createNavButton("My Tanks", 'index.html');
-        const navTocreateFish = this.createNavButton("Create Fish", 'createFish.html');
-
         const header = document.getElementById('header');
         header.appendChild(siteTitle);
-        header.appendChild(navToIndex);
-        header.appendChild(navTocreateFish);
         header.appendChild(userInfo);
     }
 

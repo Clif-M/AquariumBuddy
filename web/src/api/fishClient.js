@@ -120,10 +120,10 @@ export default class FishClient extends BindingClass {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create fish.");
             const response = await this.axiosClient.post(`fish`, {
-                fish:{
-                name: name,
-                imageUrl: imageUrl,
-                species: species
+                fish: {
+                    name: name,
+                    imageUrl: imageUrl,
+                    species: species
                 }
             }, {
                 headers: {

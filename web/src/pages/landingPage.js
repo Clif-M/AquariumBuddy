@@ -3,21 +3,12 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import TankClient from '../api/tankClient';
 
-/*
-The code below this comment is equivalent to...
-const EMPTY_DATASTORE_STATE = {
-    'search-criteria': '',
-    'search-results': [],
-};
 
-...but uses the "KEY" constants instead of "magic strings".
-The "KEY" constants will be reused a few times below.
-*/
 
-const SEARCH_CRITERIA_KEY = 'search-criteria';
+
 const SEARCH_RESULTS_KEY = 'search-results';
 const EMPTY_DATASTORE_STATE = {
-    [SEARCH_CRITERIA_KEY]: '',
+
     [SEARCH_RESULTS_KEY]: [],
 };
 
@@ -29,14 +20,13 @@ class LandingPage extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'createTank', 'deleteTank'], this);
+        this.bindClassMethods(['startupActivities', 'mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'createTank', 'deleteTank'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
 
-        console.log("landingPage constructor");
     }
 
     /**
@@ -45,8 +35,18 @@ class LandingPage extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         this.client = new TankClient();
-        this.search();
+        this.startupActivities();
         document.getElementById('create-tank').addEventListener('click', this.createTank)
+    }
+
+    async startupActivities() {
+        if (await this.client.getIdentity()) {
+            const loginCard = document.getElementById('login-prompt');
+            const createTankCard = document.getElementById('create-tank-card');
+            loginCard.classList.add('hidden');
+            createTankCard.classList.remove('hidden');
+            this.search();
+        }
     }
 
     async createTank(evt) {
@@ -72,11 +72,9 @@ class LandingPage extends BindingClass {
      * @param evt The "event" object representing the user-initiated event that triggered this method.
      */
     async search(evt) {
-        console.log("search function running");
         const results = await this.client.getTanks();
 
         this.dataStore.setState({
-            [SEARCH_CRITERIA_KEY]: SEARCH_CRITERIA_KEY,
             [SEARCH_RESULTS_KEY]: results,
         });
     }
@@ -85,27 +83,18 @@ class LandingPage extends BindingClass {
      * Pulls search results from the datastore and displays them on the html page.
      */
     async displaySearchResults() {
-        const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const searchResultsContainer = document.getElementById('search-results-container');
-        const searchCriteriaDisplay = document.getElementById('search-criteria-display');
-        const searchResultsDisplay = document.getElementById('search-results-display');
 
-        if (searchCriteria === '') {
+
+        if (searchResults.length === 0) {
             searchResultsContainer.classList.add('hidden');
-            searchCriteriaDisplay.innerHTML = '';
-            searchResultsDisplay.innerHTML = '';
+
         } else {
             searchResultsContainer.classList.remove('hidden');
             this.getHTMLForSearchResults(searchResults);
 
-            const table = document.getElementsByTagName("table")[0];
-
-            // table.addEventListener('click', (e) => {
-            //     console.log(`${e.target.dataset.characterId} clicked`);
-            //     console.log(`${e.target.parentNode.dataset.rowId} row`);
-            // })
         }
     }
 
@@ -128,6 +117,7 @@ class LandingPage extends BindingClass {
         }
 
         var table = document.getElementById("tank-table");
+        console.log(table);
         var oldTableBody = table.getElementsByTagName('tbody')[0];
         var newTableBody = document.createElement('tbody');
 

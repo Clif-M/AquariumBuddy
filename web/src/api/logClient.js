@@ -91,12 +91,12 @@ export default class LogClient extends BindingClass {
         }
     }
 
-     /**
-     * Get the songs on a given tank by the tank's identifier.
-     * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The list of songs on a tank.
-     */
-     async getLogsByType(tankId, flavor, errorCallback) {
+    /**
+    * Get the songs on a given tank by the tank's identifier.
+    * @param errorCallback (Optional) A function to execute if the call fails.
+    * @returns The list of songs on a tank.
+    */
+    async getLogsByType(tankId, flavor, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Encountered token error trying to call log endpoint.");
             const response = await this.axiosClient.get(`logs/tank/${tankId}/flavor/${flavor}`, {
@@ -141,15 +141,15 @@ export default class LogClient extends BindingClass {
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The tank that has been created.
      */
-    async createLog(flavor, tankId, notes, logDate,  errorCallback) {
+    async createLog(flavor, tankId, notes, logDate, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
             const response = await this.axiosClient.post(`logs`, {
-                log:{
-                flavor: flavor,
-                notes: notes,
-                tankId: tankId,
-                logDate: logDate
+                log: {
+                    flavor: flavor,
+                    notes: notes,
+                    tankId: tankId,
+                    logDate: logDate
                 }
             }, {
                 headers: {

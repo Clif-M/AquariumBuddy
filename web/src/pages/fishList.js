@@ -39,7 +39,6 @@ class FishList extends BindingClass {
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displaySearchResults);
-        console.log("Fish Details constructor");
     }
 
     /**
@@ -52,47 +51,42 @@ class FishList extends BindingClass {
         this.loadTank();
         document.getElementById('update-name').addEventListener('click', this.updateTank)
         document.getElementById('create-fish-button').addEventListener('click', this.createFish)
-        // document.getElementById('search-fish-button').addEventListener('click', this.getFishByType)
-
-
     }
 
     async createFish() {
         const name = document.getElementById('fish-name').value;
         const imageUrl = document.getElementById('fish-url').value;
         const species = document.getElementById('fish-species').value;
-    
+
         const fish = await this.fishClient.createFish(name, imageUrl, species);
         var list = this.dataStore.get(FISH_LOADED);
         list.push(fish);
         this.dataStore.set([FISH_LOADED], list);
         var tank = this.dataStore.get(TANK_KEY);
         tank.fishList = list;
-        console.log(tank.fishList);
         this.dataStore.set([TANK_KEY], tank);
-        console.log(this.dataStore.get(TANK_KEY))
         this.updateTank();
     }
 
 
     async deleteFish(fishId) {
-       
+
         var fishList = this.dataStore.get(FISH_LOADED);
-       
+
 
         fishList = fishList.filter(fish => fish.fishId !== fishId);
-      
+
 
         var tank = this.dataStore.get(TANK_KEY);
         tank.fishList = fishList;
-      
-       
+
+
         this.dataStore.set([TANK_KEY], tank);
         this.dataStore.set([FISH_LOADED], tank.fishList);
-        
-        
+
+
         await this.updateTank();
-        
+
         await this.fishClient.deleteFish(fishId);
 
         this.getHTMLForSearchResults();
@@ -111,15 +105,21 @@ class FishList extends BindingClass {
         const tank = await this.client.getTank(new URLSearchParams(window.location.search).get('id'));
         const nameField = document.getElementById('tank-name');
         nameField.value = tank.name;
+        const fishCount = document.getElementById('tank-fish-count');
+        if (tank.fishList) {
+            fishCount.value = tank.fishList.length;
+        } else {
+            fishCount.value = 0;
+        }
         this.dataStore.set([TANK_KEY], tank);
 
         var list = new Array();
         if (tank.fishList) {
-        for (const fish of tank.fishList) {
-            const loadedFish = await this.fishClient.getSingleFish(fish.fishId);
-            list.push(loadedFish);
+            for (const fish of tank.fishList) {
+                const loadedFish = await this.fishClient.getSingleFish(fish.fishId);
+                list.push(loadedFish);
+            }
         }
-    }
         this.dataStore.set([FISH_LOADED], list);
 
     }
@@ -143,8 +143,6 @@ class FishList extends BindingClass {
      */
     getHTMLForSearchResults() {
         const searchResults = this.dataStore.get(FISH_LOADED);
-        console.log("GETHTML CALLED")
-        console.log(searchResults);
 
         if (!searchResults) {
             var table = document.getElementById("fish-table");
@@ -164,14 +162,14 @@ class FishList extends BindingClass {
 
 
         for (const fish of searchResults) {
-            if (!fish) {continue;}
+            if (!fish) { continue; }
             var row = newTableBody.insertRow();
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
 
-            cell1.innerHTML ='<a href="fishDetails.html?id=' + fish.fishId + '&tankId=' +  new URLSearchParams(window.location.search).get('id') + "\">" + '<figure><img src="' + fish.imageUrl + '"' +  "alt='No Image Available.'/>" +
-            "<figcaption>" + fish.name + "</figcaption>" + "</figure>" + '</a>';
+            cell1.innerHTML = '<a href="fishDetails.html?id=' + fish.fishId + '&tankId=' + new URLSearchParams(window.location.search).get('id') + "\">" + '<figure><img src="' + fish.imageUrl + '"' + "alt='No Image Available.'/>" +
+                "<figcaption>" + fish.name + "</figcaption>" + "</figure>" + '</a>';
 
             cell2.innerHTML = fish.species;
 
@@ -184,7 +182,7 @@ class FishList extends BindingClass {
                 if (result) {
                     this.deleteFish(fish.fishId);
                 }
-                
+
             });
 
             cell3.appendChild(deleteButton);
