@@ -25,11 +25,12 @@
 <body class="background">
     <header class="header" id="header"></header>
     <div class="container-fluid">
+        <div class="card centered" id="login-prompt"><h2>Please Log In</h2></div>
         <div class="card hidden centered" id="search-results-container">
             <h2>My Tanks<span id="search-criteria-display"></span></h2>
             <div id="search-results-display">
                 <p>
-                    <table id = "tank-table" hidden = true class="preload">
+                    <table id="tank-table" hidden = true class="preload">
                         <thead>
                             <tr>
                             <th>Name</th>
@@ -38,14 +39,14 @@
                             <th>Delete</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody">
                         </tbody>
                       </table>
                 </p>
             </div>
         </div>
         <!--Start Input Fields-->
-        <div class="card centered">
+        <div class="card hidden centered" id="create-tank-card">
             <center><h2>Create New Tank</h2></center>
             <center><label>Tank Name</label></center>
             <center><input type="text" class="validated-field" id="tank-name" value="New Tank" autofocus></center>
