@@ -51,9 +51,6 @@ class FishList extends BindingClass {
         this.loadTank();
         document.getElementById('update-name').addEventListener('click', this.updateTank)
         document.getElementById('create-fish-button').addEventListener('click', this.createFish)
-        // document.getElementById('search-fish-button').addEventListener('click', this.getFishByType)
-
-
     }
 
     async createFish() {
@@ -108,6 +105,12 @@ class FishList extends BindingClass {
         const tank = await this.client.getTank(new URLSearchParams(window.location.search).get('id'));
         const nameField = document.getElementById('tank-name');
         nameField.value = tank.name;
+        const fishCount = document.getElementById('tank-fish-count');
+        if(tank.fishList) {
+        fishCount.value = tank.fishList.length;
+    } else {
+        fishCount.value = 0;
+    }
         this.dataStore.set([TANK_KEY], tank);
 
         var list = new Array();
