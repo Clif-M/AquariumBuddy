@@ -170,7 +170,7 @@ class FishList extends BindingClass {
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
 
-            cell1.innerHTML ='<a href="fishDetails.html?id=' + fish.fishId + "\">" + '<figure><img src="' + fish.imageUrl + '"' +  "alt='No Image Available.'/>" +
+            cell1.innerHTML ='<a href="fishDetails.html?id=' + fish.fishId + '&tankId=' +  new URLSearchParams(window.location.search).get('id') + "\">" + '<figure><img src="' + fish.imageUrl + '"' +  "alt='No Image Available.'/>" +
             "<figcaption>" + fish.name + "</figcaption>" + "</figure>" + '</a>';
 
             cell2.innerHTML = fish.species;
