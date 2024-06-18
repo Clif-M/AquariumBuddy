@@ -76,20 +76,20 @@ class FishList extends BindingClass {
 
 
     async deleteFish(fishId) {
-        console.log(fishId);
+       
         var fishList = this.dataStore.get(FISH_LOADED);
-        console.log(fishList)
+       
 
         fishList = fishList.filter(fish => fish.fishId !== fishId);
-        console.log(fishList)
+      
 
         var tank = this.dataStore.get(TANK_KEY);
         tank.fishList = fishList;
-        console.log(tank.fishList);
+      
        
         this.dataStore.set([TANK_KEY], tank);
         this.dataStore.set([FISH_LOADED], tank.fishList);
-        console.log(tank);
+        
         
         await this.updateTank();
         

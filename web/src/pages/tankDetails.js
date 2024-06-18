@@ -63,12 +63,11 @@ class TankDetails extends BindingClass {
         const logType = document.getElementById('type-input').value;
         const date = document.getElementById('date').value;
         if(!date) {return alert("Date field required.")}
-        console.log(date);
         const notes = document.getElementById('log-notes').value;
         var log = await this.logClient.createLog(logType, tankId, notes, date);
 
         var logList = this.dataStore.get(SEARCH_RESULTS_KEY);
-        logList.push(log);
+        logList.unshift(log);
         this.dataStore.set([SEARCH_RESULTS_KEY], logList);
 
     }
@@ -90,10 +89,10 @@ class TankDetails extends BindingClass {
     }
 
     async deleteLog(logId) {
-        await this.logClient.deleteLog(logId).then(response => {
-        }).catch(e => {
-            console.log(e);
-        });;
+        var logList = this.dataStore.get(SEARCH_RESULTS_KEY);
+        logList = logList.filter(log => log.logId !== logId);
+        this.dataStore.set([SEARCH_RESULTS_KEY], logList);
+        await this.logClient.deleteLog(logId);
     }
 
     async updateTank() {
@@ -172,7 +171,8 @@ class TankDetails extends BindingClass {
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
 
-            cell1.innerHTML = '<a href="logDetails.html?id=' + log.logId + "\">" + log.flavor + '</a>';
+            cell1.innerHTML = '<a href="logDetails.html?id=' + log.logId 
+            + '&tankId=' +  new URLSearchParams(window.location.search).get('id') + "\">" + log.flavor + '</a>';
             cell2.innerHTML = log.logDate;
 
             var deleteButton = document.createElement('button');

@@ -35,6 +35,7 @@ class LogDetails extends BindingClass {
         document.getElementById('date').value = log.logDate;
         document.getElementById('log-notes').value = log.notes;
         this.dataStore.set([CURRENT_LOG], log);
+        
     }
 
     async updateLog() {
@@ -46,6 +47,7 @@ class LogDetails extends BindingClass {
 
         const results = await this.client.updateLog(log);
         this.dataStore.set([CURRENT_LOG], results);
+        window.location.href="tankDetails.html?id=" + new URLSearchParams(window.location.search).get('tankId');
     }
 
 
