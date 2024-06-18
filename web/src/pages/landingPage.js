@@ -3,16 +3,7 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import TankClient from '../api/tankClient';
 
-/*
-The code below this comment is equivalent to...
-const EMPTY_DATASTORE_STATE = {
-    'search-criteria': '',
-    'search-results': [],
-};
 
-...but uses the "KEY" constants instead of "magic strings".
-The "KEY" constants will be reused a few times below.
-*/
 
 
 const SEARCH_RESULTS_KEY = 'search-results';
@@ -114,7 +105,6 @@ class LandingPage extends BindingClass {
      */
     getHTMLForSearchResults(searchResults) {
         if (!searchResults) {
-            console.log("this shit aint running");
             var table = document.getElementById("tank-table");
             var oldTableBody = table.getElementsByTagName('tbody')[0];
             var newTableBody = document.createElement('tbody');
