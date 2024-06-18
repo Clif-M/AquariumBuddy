@@ -65,10 +65,12 @@ class TankDetails extends BindingClass {
         if(!date) {return alert("Date field required.")}
         console.log(date);
         const notes = document.getElementById('log-notes').value;
-        await this.logClient.createLog(logType, tankId, notes, date).then(response => {
-        }).catch(e => {
-            console.log(e);
-        });;
+        var log = await this.logClient.createLog(logType, tankId, notes, date);
+
+        var logList = this.dataStore.get(SEARCH_RESULTS_KEY);
+        logList.push(log);
+        this.dataStore.set([SEARCH_RESULTS_KEY], logList);
+
     }
 
     async getLogsByType() {
