@@ -120,8 +120,8 @@ export default class TankClient extends BindingClass {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create tanks.");
             const response = await this.axiosClient.post(`tanks`, {
-                tank:{
-                name: name
+                tank: {
+                    name: name
                 }
             }, {
                 headers: {

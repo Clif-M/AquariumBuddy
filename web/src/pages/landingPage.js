@@ -46,7 +46,7 @@ class LandingPage extends BindingClass {
             loginCard.classList.add('hidden');
             createTankCard.classList.remove('hidden');
             this.search();
-            }
+        }
     }
 
     async createTank(evt) {
@@ -86,11 +86,11 @@ class LandingPage extends BindingClass {
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const searchResultsContainer = document.getElementById('search-results-container');
-        
+
 
         if (searchResults.length === 0) {
             searchResultsContainer.classList.add('hidden');
-           
+
         } else {
             searchResultsContainer.classList.remove('hidden');
             this.getHTMLForSearchResults(searchResults);
