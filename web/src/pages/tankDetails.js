@@ -65,8 +65,17 @@ class TankDetails extends BindingClass {
         var log = await this.logClient.createLog(logType, tankId, notes, date);
 
         var logList = this.dataStore.get(SEARCH_RESULTS_KEY);
+        if (logList) {
         logList.unshift(log);
         this.dataStore.set([SEARCH_RESULTS_KEY], logList);
+        // this.displaySearchResults();
+        } else {
+            var newList = new Array();
+            newList.push(log);
+            this.dataStore.set([SEARCH_RESULTS_KEY], newList);
+            // this.displaySearchResults();
+        }
+        document.getElementById('type-filter').value = "All";
 
     }
 
